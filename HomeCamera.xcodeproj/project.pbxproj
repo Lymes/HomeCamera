@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B17C2DE17561BBC005A4A0F /* MotionJpegImageView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1B17C2DD17561BBC005A4A0F /* MotionJpegImageView.mm */; };
+		1B17C2E117562944005A4A0F /* PreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B17C2E017562944005A4A0F /* PreferenceViewController.m */; };
+		1B17C2E917568FAE005A4A0F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B17C2E817568FAE005A4A0F /* QuartzCore.framework */; };
+		1B17C2ED1756979E005A4A0F /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1B17C2EC1756979E005A4A0F /* Defaults.plist */; };
+		1B17C2F01756A46E005A4A0F /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B17C2EF1756A46E005A4A0F /* Base64.m */; };
+		1BF44D591751598900734D55 /* icon57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BF44D581751598900734D55 /* icon57x57.png */; };
+		1BF44D5B1751598E00734D55 /* icon114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BF44D5A1751598E00734D55 /* icon114x114.png */; };
 		1BF79EF7175115ED00E7BB15 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF79EF6175115ED00E7BB15 /* UIKit.framework */; };
 		1BF79EF9175115ED00E7BB15 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF79EF8175115ED00E7BB15 /* Foundation.framework */; };
 		1BF79EFB175115ED00E7BB15 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF79EFA175115ED00E7BB15 /* CoreGraphics.framework */; };
@@ -17,11 +24,20 @@
 		1BF79F0B175115ED00E7BB15 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BF79F0A175115ED00E7BB15 /* Default@2x.png */; };
 		1BF79F0D175115ED00E7BB15 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BF79F0C175115ED00E7BB15 /* Default-568h@2x.png */; };
 		1BF79F10175115ED00E7BB15 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1BF79F0E175115ED00E7BB15 /* MainStoryboard_iPhone.storyboard */; };
-		1BF79F13175115ED00E7BB15 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1BF79F11175115ED00E7BB15 /* MainStoryboard_iPad.storyboard */; };
-		1BF79F16175115ED00E7BB15 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF79F15175115ED00E7BB15 /* ViewController.m */; };
+		1BF79F16175115ED00E7BB15 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF79F15175115ED00E7BB15 /* CameraViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1B17C2DC17561BBC005A4A0F /* MotionJpegImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MotionJpegImageView.h; sourceTree = "<group>"; };
+		1B17C2DD17561BBC005A4A0F /* MotionJpegImageView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MotionJpegImageView.mm; sourceTree = "<group>"; };
+		1B17C2DF17562944005A4A0F /* PreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferenceViewController.h; sourceTree = "<group>"; };
+		1B17C2E017562944005A4A0F /* PreferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferenceViewController.m; sourceTree = "<group>"; };
+		1B17C2E817568FAE005A4A0F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		1B17C2EC1756979E005A4A0F /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Defaults.plist; sourceTree = "<group>"; };
+		1B17C2EE1756A46E005A4A0F /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
+		1B17C2EF1756A46E005A4A0F /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
+		1BF44D581751598900734D55 /* icon57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon57x57.png; path = ../icon57x57.png; sourceTree = "<group>"; };
+		1BF44D5A1751598E00734D55 /* icon114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon114x114.png; path = ../icon114x114.png; sourceTree = "<group>"; };
 		1BF79EF3175115ED00E7BB15 /* HomeCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BF79EF6175115ED00E7BB15 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1BF79EF8175115ED00E7BB15 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -36,9 +52,8 @@
 		1BF79F0A175115ED00E7BB15 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		1BF79F0C175115ED00E7BB15 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		1BF79F0F175115ED00E7BB15 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		1BF79F12175115ED00E7BB15 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		1BF79F14175115ED00E7BB15 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		1BF79F15175115ED00E7BB15 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		1BF79F14175115ED00E7BB15 /* CameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
+		1BF79F15175115ED00E7BB15 /* CameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B17C2E917568FAE005A4A0F /* QuartzCore.framework in Frameworks */,
 				1BF79EF7175115ED00E7BB15 /* UIKit.framework in Frameworks */,
 				1BF79EF9175115ED00E7BB15 /* Foundation.framework in Frameworks */,
 				1BF79EFB175115ED00E7BB15 /* CoreGraphics.framework in Frameworks */,
@@ -55,6 +71,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B17C2E217567662005A4A0F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1BF44D5A1751598E00734D55 /* icon114x114.png */,
+				1BF44D581751598900734D55 /* icon57x57.png */,
+				1B17C2EC1756979E005A4A0F /* Defaults.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		1BF79EEA175115ED00E7BB15 = {
 			isa = PBXGroup;
 			children = (
@@ -75,6 +101,7 @@
 		1BF79EF5175115ED00E7BB15 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1B17C2E817568FAE005A4A0F /* QuartzCore.framework */,
 				1BF79EF6175115ED00E7BB15 /* UIKit.framework */,
 				1BF79EF8175115ED00E7BB15 /* Foundation.framework */,
 				1BF79EFA175115ED00E7BB15 /* CoreGraphics.framework */,
@@ -85,13 +112,19 @@
 		1BF79EFC175115ED00E7BB15 /* HomeCamera */ = {
 			isa = PBXGroup;
 			children = (
+				1B17C2EE1756A46E005A4A0F /* Base64.h */,
+				1B17C2EF1756A46E005A4A0F /* Base64.m */,
+				1B17C2DC17561BBC005A4A0F /* MotionJpegImageView.h */,
+				1B17C2DD17561BBC005A4A0F /* MotionJpegImageView.mm */,
 				1BF79F05175115ED00E7BB15 /* AppDelegate.h */,
 				1BF79F06175115ED00E7BB15 /* AppDelegate.m */,
 				1BF79F0E175115ED00E7BB15 /* MainStoryboard_iPhone.storyboard */,
-				1BF79F11175115ED00E7BB15 /* MainStoryboard_iPad.storyboard */,
-				1BF79F14175115ED00E7BB15 /* ViewController.h */,
-				1BF79F15175115ED00E7BB15 /* ViewController.m */,
+				1BF79F14175115ED00E7BB15 /* CameraViewController.h */,
+				1BF79F15175115ED00E7BB15 /* CameraViewController.m */,
+				1B17C2DF17562944005A4A0F /* PreferenceViewController.h */,
+				1B17C2E017562944005A4A0F /* PreferenceViewController.m */,
 				1BF79EFD175115ED00E7BB15 /* Supporting Files */,
+				1B17C2E217567662005A4A0F /* Resources */,
 			);
 			path = HomeCamera;
 			sourceTree = "<group>";
@@ -166,7 +199,9 @@
 				1BF79F0B175115ED00E7BB15 /* Default@2x.png in Resources */,
 				1BF79F0D175115ED00E7BB15 /* Default-568h@2x.png in Resources */,
 				1BF79F10175115ED00E7BB15 /* MainStoryboard_iPhone.storyboard in Resources */,
-				1BF79F13175115ED00E7BB15 /* MainStoryboard_iPad.storyboard in Resources */,
+				1BF44D591751598900734D55 /* icon57x57.png in Resources */,
+				1BF44D5B1751598E00734D55 /* icon114x114.png in Resources */,
+				1B17C2ED1756979E005A4A0F /* Defaults.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,7 +214,10 @@
 			files = (
 				1BF79F03175115ED00E7BB15 /* main.m in Sources */,
 				1BF79F07175115ED00E7BB15 /* AppDelegate.m in Sources */,
-				1BF79F16175115ED00E7BB15 /* ViewController.m in Sources */,
+				1BF79F16175115ED00E7BB15 /* CameraViewController.m in Sources */,
+				1B17C2DE17561BBC005A4A0F /* MotionJpegImageView.mm in Sources */,
+				1B17C2E117562944005A4A0F /* PreferenceViewController.m in Sources */,
+				1B17C2F01756A46E005A4A0F /* Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,14 +238,6 @@
 				1BF79F0F175115ED00E7BB15 /* en */,
 			);
 			name = MainStoryboard_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		1BF79F11175115ED00E7BB15 /* MainStoryboard_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1BF79F12175115ED00E7BB15 /* en */,
-			);
-			name = MainStoryboard_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -278,6 +308,7 @@
 				GCC_PREFIX_HEADER = "HomeCamera/HomeCamera-Prefix.pch";
 				INFOPLIST_FILE = "HomeCamera/HomeCamera-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -289,6 +320,7 @@
 				GCC_PREFIX_HEADER = "HomeCamera/HomeCamera-Prefix.pch";
 				INFOPLIST_FILE = "HomeCamera/HomeCamera-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -312,6 +344,7 @@
 				1BF79F1B175115ED00E7BB15 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

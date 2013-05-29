@@ -12,8 +12,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    return YES;
+	NSString *defaultPrefsFile = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
+	NSDictionary *defaultPreferences = [NSDictionary dictionaryWithContentsOfFile:defaultPrefsFile];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultPreferences];
+    
+	return YES;
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application
