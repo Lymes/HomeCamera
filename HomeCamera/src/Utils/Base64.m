@@ -14,13 +14,13 @@ static char *alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012
 
 + (NSString *)encode:(NSData *)plainText
 {
-	int encodedLength = (4 * (([plainText length] / 3) + (1 - (3 - ([plainText length] % 3)) / 3))) + 1;
+	unsigned long encodedLength = (4 * (([plainText length] / 3) + (1 - (3 - ([plainText length] % 3)) / 3))) + 1;
 	char *outputBuffer = malloc(encodedLength);
 	char *inputBuffer = (char *)[plainText bytes];
 	
 	NSInteger i;
 	NSInteger j = 0;
-	int remain;
+	unsigned long remain;
 	
 	for(i = 0; i < [plainText length]; i += 3) {
 		remain = [plainText length] - i;

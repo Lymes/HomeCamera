@@ -7,9 +7,19 @@
 //
 
 #import "CameraViewController.h"
+#import "MotionJpegImageView.h"
+#import "InAppSettings.h"
 #import "Base64.h"
 #import <ifaddrs.h>
 #import <arpa/inet.h>
+
+
+#define kLocalAddress    @"LocalAddress"
+#define kInternetAddress @"InternetAddress"
+#define kUsername        @"Username"
+#define kPassword        @"Password"
+#define kVideoResolution @"VideoResolution"
+#define kPanSpeed        @"PanSpeed"
 
 
 enum
@@ -23,6 +33,15 @@ enum
     PAN_RIGHT,
     PAN_RIGHT_STOP
 };
+
+
+@interface CameraViewController () <UIGestureRecognizerDelegate>
+
+@property BOOL isUsingInternet;
+@property NSString *cameraURL;
+@property IBOutlet MotionJpegImageView *imageView;
+
+@end
 
 
 
@@ -44,7 +63,7 @@ enum
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     UISwipeGestureRecognizer *swipeUpRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
     [swipeUpRecognizer setDirection:UISwipeGestureRecognizerDirectionUp];
     UISwipeGestureRecognizer *swipeDownRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
@@ -55,14 +74,19 @@ enum
     [swipeRightRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
     UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-    
+
     [[self view] addGestureRecognizer:swipeUpRecognizer];
     [[self view] addGestureRecognizer:swipeDownRecognizer];
     [[self view] addGestureRecognizer:swipeLeftRecognizer];
     [[self view] addGestureRecognizer:swipeRightRecognizer];
     [[self view] addGestureRecognizer:pinchRecognizer];
     [[self view] addGestureRecognizer:tapRecognizer];
-    
+
+    __block typeof( self ) _self = self;
+    [[NSNotificationCenter defaultCenter] addObserverForName:InAppSettingsViewControllerDelegateDidDismissedNotification object:nil queue:nil usingBlock:^( NSNotification *notification ) {
+         [_self.imageView play];
+     }];
+
     [self play];
 }
 
@@ -71,30 +95,38 @@ enum
 
 - (void)play
 {
-    NSString *urlAddress = [[NSUserDefaults standardUserDefaults] stringForKey:@"internetAddress"];
+    NSString *urlAddress = [[NSUserDefaults standardUserDefaults] stringForKey:kInternetAddress];
+    NSString *localAddress = [[NSUserDefaults standardUserDefaults] stringForKey:kLocalAddress];
     NSString *ipAddress = [self getIPAddress];
-    
-    BOOL useInternet = YES;
-    
-    if ( [ipAddress containsString:@"192.168.1"] )
+
+    self.isUsingInternet = YES;
+
+    NSString *host = [[NSURL URLWithString:localAddress] host];
+    NSUInteger lastDot = [host rangeOfString:@"." options:NSBackwardsSearch].location;
+    if ( lastDot != NSNotFound )
     {
-        urlAddress = [[NSUserDefaults standardUserDefaults] stringForKey:@"localAddress"];
-        useInternet = NO;
+        NSString *network = [host substringToIndex:lastDot];
+        if ( [ipAddress containsString:network] )
+        {
+            urlAddress = localAddress;
+            self.isUsingInternet = NO;
+        }
     }
-    [[NSUserDefaults standardUserDefaults] setBool:useInternet forKey:@"useInternet"];
-    NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:@"userName"];
-    NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-    NSInteger resolution = [[NSUserDefaults standardUserDefaults] integerForKey:@"resolution"];
-    
-    imageView.url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/videostream.cgi?user=%@&pwd=%@&resolution=%ld", urlAddress, userName, password, (long)resolution]];
-    [imageView play];
+    NSInteger resolution = [[NSUserDefaults standardUserDefaults] integerForKey:kVideoResolution];
+    NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUsername];
+    NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:kPassword];
+
+    self.imageView.url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/videostream.cgi?resolution=%ld", urlAddress, (long)resolution]];
+    self.imageView.userName = userName;
+    self.imageView.password = password;
+    [self.imageView play];
 }
 
 
 - (void)stop
 {
-    [imageView stop];
-    [imageView clear];
+    [self.imageView stop];
+    [self.imageView clear];
 }
 
 
@@ -105,36 +137,21 @@ enum
 }
 
 
-#pragma mark - PreferenceViewControllerDelegate
-
-- (void)preferenceViewControllerDone:(PreferenceViewController *)controller
+- (void)setupFrame
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:controller.internetAddress.text forKey:@"internetAddress"];
-    [[NSUserDefaults standardUserDefaults] setObject:controller.localAddress.text forKey:@"localAddress"];
-    [[NSUserDefaults standardUserDefaults] setObject:controller.userName.text forKey:@"userName"];
-    [[NSUserDefaults standardUserDefaults] setObject:controller.password.text forKey:@"password"];
-    [[NSUserDefaults standardUserDefaults] setInteger:controller.networkPicker.selectedSegmentIndex forKey:@"useInternet"];
-    [[NSUserDefaults standardUserDefaults] setInteger:controller.panSpeed.value forKey:@"panSpeed"];
-    
-    NSInteger resolution = controller.resolutionPicker.selectedSegmentIndex;
-    switch ( resolution )
+    CGRect frame = [[UIScreen mainScreen] applicationFrame];
+
+    frame.origin.x = 0;
+    frame.origin.y = 0;
+    frame.size.height += 20;
+    UIInterfaceOrientation orientation = self.interfaceOrientation;
+    if ( UIDevice.currentDevice.systemVersion.floatValue < 8 && (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight) )
     {
-        case 0:
-            [[NSUserDefaults standardUserDefaults] setInteger:RES_160_120 forKey:@"resolution"];
-            break;
-        case 2:
-            [[NSUserDefaults standardUserDefaults] setInteger:RES_640_480 forKey:@"resolution"];
-            break;
-        case 1:
-        default:
-            [[NSUserDefaults standardUserDefaults] setInteger:RES_320_240 forKey:@"resolution"];
-            break;
+        float tmp = frame.size.width;
+        frame.size.width = frame.size.height;
+        frame.size.height = tmp;
     }
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [self play];
+    self.imageView.frame = frame;
 }
 
 
@@ -144,10 +161,8 @@ enum
 {
     if ( [segue.identifier isEqualToString:@"Preferences"] )
     {
-        PreferenceViewController *preferenceViewController = segue.destinationViewController;
-        preferenceViewController.delegate = self;
     }
-    [imageView stop];
+    [self.imageView stop];
 }
 
 
@@ -155,18 +170,7 @@ enum
 
 - (void)handleTap:(UIPinchGestureRecognizer *)gestureRecognizer
 {
-    CGRect frame = [[UIScreen mainScreen] applicationFrame];
-    
-    frame.origin.x = 0;
-    frame.origin.y = 0;
-    UIInterfaceOrientation orientation = self.interfaceOrientation;
-    if ( orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight )
-    {
-        float tmp = frame.size.width;
-        frame.size.width = frame.size.height;
-        frame.size.height = tmp;
-    }
-    imageView.frame = frame;
+    [self setupFrame];
 }
 
 
@@ -174,7 +178,7 @@ enum
 {
     if ( [gestureRecognizer state] == UIGestureRecognizerStateBegan || [gestureRecognizer state] == UIGestureRecognizerStateChanged )
     {
-        imageView.transform = CGAffineTransformScale( [imageView transform], [gestureRecognizer scale], [gestureRecognizer scale] );
+        self.imageView.transform = CGAffineTransformScale( [self.imageView transform], [gestureRecognizer scale], [gestureRecognizer scale] );
         [gestureRecognizer setScale:1];
     }
 }
@@ -183,7 +187,7 @@ enum
 - (void)handleSwipe:(UIGestureRecognizer *)gestureRecognizer
 {
     UISwipeGestureRecognizer *mSwipeUpRecognizer = (UISwipeGestureRecognizer *)gestureRecognizer;
-    
+
     if ( mSwipeUpRecognizer.direction & UISwipeGestureRecognizerDirectionUp )
     {
         [self performSelectorInBackground:@selector(turnCamera:) withObject:[NSNumber numberWithInt:TILT_DOWN]];
@@ -208,22 +212,11 @@ enum
 - (void)turnCamera:(NSNumber *)direction
 {
     int dir = [direction intValue];
-    NSString *urlAddress = [[NSUserDefaults standardUserDefaults] stringForKey:@"internetAddress"];
-    
-    if ( ![[NSUserDefaults standardUserDefaults] boolForKey:@"useInternet"] )
-    {
-        urlAddress = [[NSUserDefaults standardUserDefaults] stringForKey:@"localAddress"];
-    }
-    
-    NSInteger panSpeed = [[NSUserDefaults standardUserDefaults] integerForKey:@"panSpeed"];
-    
-    [self requestToURL:[NSString stringWithFormat:@"%@/set_misc.cgi?ptz_patrol_rate=%ld", urlAddress, (long)panSpeed]];
-    
-    
-    //    [self requestToURL:[NSString stringWithFormat:@"%@/decoder_control.cgi?command=%d", urlAddress, dir]];
-    //    [NSThread sleepForTimeInterval:.2];
-    //    [self requestToURL:[NSString stringWithFormat:@"%@/decoder_control.cgi?command=%d", urlAddress, dir + 1]];
-    
+    NSString *urlAddress = [[NSUserDefaults standardUserDefaults] stringForKey:self.isUsingInternet ? kInternetAddress : kLocalAddress];
+
+    // NSInteger panSpeed = [[NSUserDefaults standardUserDefaults] integerForKey:kPanSpeed];
+    // [self requestToURL:[NSString stringWithFormat:@"%@/set_misc.cgi?ptz_patrol_rate=%ld", urlAddress, (long)panSpeed]];
+
     [self requestToURL:[NSString stringWithFormat:@"%@/decoder_control.cgi?onestep=1&command=%d&%ld", urlAddress, dir, (long)[[NSDate new] timeIntervalSince1970]]];
 }
 
@@ -231,30 +224,30 @@ enum
 - (void)requestToURL:(NSString *)urlStr
 {
     NSURL *url = [NSURL URLWithString:urlStr];
-    NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:@"userName"];
-    NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
-    
-    NSError *myError = nil;
-    
+    NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUsername];
+    NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:kPassword];
+
     // create a plaintext string in the format username:password
     NSString *loginString = [NSString stringWithFormat:@"%@:%@", userName, password];
-    
+
     // employ the Base64 encoding above to encode the authentication tokens
     NSString *encodedLoginData = [Base64 encode:[loginString dataUsingEncoding:NSUTF8StringEncoding]];
-    
+
     // create the contents of the header
     NSString *authHeader = [@"Basic " stringByAppendingFormat:@"%@", encodedLoginData];
-    
+
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestReloadIgnoringCacheData
-                                                       timeoutInterval:3];
-    
+                                                       timeoutInterval:10];
+
     // add the header to the request.  Here's the $$$!!!
     [request addValue:authHeader forHTTPHeaderField:@"Authorization"];
-    
+
     // perform the reqeust
-    NSURLResponse *response;
-    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&myError];
+    // NSError *myError = nil;
+    // NSURLResponse *response;
+    // [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&myError];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue new] completionHandler:nil];
 }
 
 
@@ -264,7 +257,7 @@ enum
     struct ifaddrs *interfaces = NULL;
     struct ifaddrs *temp_addr = NULL;
     int success = 0;
-    
+
     // retrieve the current interfaces - returns 0 on success
     success = getifaddrs( &interfaces );
     if ( success == 0 )
@@ -288,7 +281,7 @@ enum
     // Free memory
     freeifaddrs( interfaces );
     return address;
-    
+
 }
 
 

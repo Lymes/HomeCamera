@@ -7,23 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MotionJpegImageView.h"
-#import "PreferenceViewController.h"
 
 
-@interface CameraViewController : UIViewController <UIGestureRecognizerDelegate, PreferenceViewControllerDelegate> {
-	
-	
-	NSString *cameraURL;
-	
-	IBOutlet MotionJpegImageView *imageView;
-	
-	
-}
+@interface CameraViewController : UIViewController
 
 - (IBAction)reset:(id)sender;
-
-- (void)preferenceViewControllerDone:(PreferenceViewController *)controller;
 
 - (void)play;
 - (void)stop;

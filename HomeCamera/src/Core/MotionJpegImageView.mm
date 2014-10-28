@@ -24,7 +24,7 @@
 // SOFTWARE.
 
 #import "MotionJpegImageView.h"
-
+#import "Base64.h"
 
 #pragma mark - Constants
 
@@ -49,147 +49,176 @@ static NSData *_endMarkerData = nil;
 
 - (BOOL)isPlaying
 {
-	return !(_connection == nil);
+    return !(_connection == nil);
 }
+
 
 #pragma mark - Initializers
 
 - (id)initWithFrame:(CGRect)frame
 {
-	self = [super initWithFrame:frame];
+    self = [super initWithFrame:frame];
 
-	if (self)
-	{
-		_url = nil;
-		_receivedData = nil;
+    if ( self )
+    {
+        _url = nil;
+        _receivedData = nil;
 
-		if (_endMarkerData == nil)
-		{
-			uint8_t endMarker[2] = END_MARKER_BYTES;
-			_endMarkerData = [[NSData alloc] initWithBytes:endMarker length:2];
-		}
+        if ( _endMarkerData == nil )
+        {
+            uint8_t endMarker[2] = END_MARKER_BYTES;
+            _endMarkerData = [[NSData alloc] initWithBytes:endMarker length:2];
+        }
 
-		self.contentMode = UIViewContentModeScaleAspectFit;
-	}
+        self.contentMode = UIViewContentModeScaleAspectFit;
+    }
 
-	return self;
+    return self;
 }
+
 
 - (void)awakeFromNib
 {
-	[super awakeFromNib];
+    [super awakeFromNib];
 
-	if (_endMarkerData == nil)
-	{
-		uint8_t endMarker[2] = END_MARKER_BYTES;
-		_endMarkerData = [[NSData alloc] initWithBytes:endMarker length:2];
-	}
+    if ( _endMarkerData == nil )
+    {
+        uint8_t endMarker[2] = END_MARKER_BYTES;
+        _endMarkerData = [[NSData alloc] initWithBytes:endMarker length:2];
+    }
 
-	self.contentMode = UIViewContentModeScaleAspectFit;
+    self.contentMode = UIViewContentModeScaleAspectFit;
 }
+
 
 #pragma mark - Overrides
 
 - (void)dealloc
 {
-	if (_connection)
-	{
-		[_connection cancel];
-		[self cleanupConnection];
-	}
+    if ( _connection )
+    {
+        [_connection cancel];
+        [self cleanupConnection];
+    }
 }
+
 
 #pragma mark - Public Methods
 
 - (void)play
 {
-	if (_connection)
-	{
-		// continue
-	}
-	else if (_url)
-	{
-		NSURLRequest *request = [NSURLRequest requestWithURL:_url
-												 cachePolicy:NSURLRequestReloadIgnoringCacheData
-											 timeoutInterval:5];
+    if ( _connection )
+    {
+        // continue
+    }
+    else if ( _url )
+    {
+        // create a plaintext string in the format username:password
+        NSString *loginString = [NSString stringWithFormat:@"%@:%@", self.userName, self.password];
 
-		_connection = [[NSURLConnection alloc] initWithRequest:request
-													  delegate:self];
-	}
+        // employ the Base64 encoding above to encode the authentication tokens
+        NSString *encodedLoginData = [Base64 encode:[loginString dataUsingEncoding:NSUTF8StringEncoding]];
+
+        // create the contents of the header
+        NSString *authHeader = [@"Basic " stringByAppendingFormat:@"%@", encodedLoginData];
+
+
+
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_url
+                                                               cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                           timeoutInterval:10];
+
+        // add the header to the request.  Here's the $$$!!!
+        [request addValue:authHeader forHTTPHeaderField:@"Authorization"];
+
+
+        _connection = [[NSURLConnection alloc] initWithRequest:request
+                                                      delegate:self];
+    }
 }
+
 
 - (void)pause
 {
-	if (_connection)
-	{
-		[_connection cancel];
-		[self cleanupConnection];
-	}
+    if ( _connection )
+    {
+        [_connection cancel];
+        [self cleanupConnection];
+    }
 }
+
 
 - (void)clear
 {
-	self.image = nil;
+    self.image = nil;
 }
+
 
 - (void)stop
 {
-	[self pause];
-	[self clear];
+    [self pause];
+    [self clear];
 }
+
 
 #pragma mark - Private Methods
 
 - (void)cleanupConnection
 {
-	if (_connection)
-	{
-		_connection = nil;
-	}
+    if ( _connection )
+    {
+        _connection = nil;
+    }
 
-	if (_receivedData)
-	{
-		_receivedData = nil;
-	}
+    if ( _receivedData )
+    {
+        _receivedData = nil;
+    }
 }
+
 
 #pragma mark - NSURLConnection Delegate Methods
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-	_receivedData = [[NSMutableData alloc] init];
+    _receivedData = [NSMutableData new];
 }
+
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-	[_receivedData appendData:data];
+    [_receivedData appendData:data];
 
-	NSRange endRange = [_receivedData rangeOfData:_endMarkerData
-										  options:0
-											range:NSMakeRange(0, _receivedData.length)];
+    NSRange endRange = [_receivedData rangeOfData:_endMarkerData
+                                          options:0
+                                            range:NSMakeRange( 0, _receivedData.length )];
 
-	long long endLocation = endRange.location + endRange.length;
-	if (_receivedData.length >= endLocation)
-	{
-		NSData *imageData = [_receivedData subdataWithRange:NSMakeRange(0, endLocation)];
-		UIImage *receivedImage = [UIImage imageWithData:imageData];
-		if (receivedImage)
-		{
-			self.image = receivedImage;
-		}
-	}
+    long long endLocation = endRange.location + endRange.length;
+    if ( _receivedData.length >= endLocation )
+    {
+        NSData *imageData = [_receivedData subdataWithRange:NSMakeRange( 0, endLocation )];
+        UIImage *receivedImage = [UIImage imageWithData:imageData];
+        if ( receivedImage )
+        {
+            self.image = receivedImage;
+        }
+        _receivedData = [NSMutableData new];
+    }
 }
+
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-	[self cleanupConnection];
+    [self cleanupConnection];
 }
 
-- (void)  connection:(NSURLConnection *)connection
-	didFailWithError:(NSError *)error
+
+- (void)connection:(NSURLConnection *)connection
+    didFailWithError:(NSError *)error
 {
-	[self cleanupConnection];
-	[self play];
+    [self cleanupConnection];
+    [self play];
 }
+
 
 @end

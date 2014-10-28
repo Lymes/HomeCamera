@@ -6,7 +6,7 @@
 	<array>
 		<dict>
 			<key>Title</key>
-			<string>Group</string>
+			<string>Network</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
@@ -16,43 +16,123 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string></string>
+			<string>http://192.168.1.127:81</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
-			<string>name_preference</string>
+			<string>LocalAddress</string>
 			<key>KeyboardType</key>
 			<string>Alphabet</string>
 			<key>Title</key>
-			<string>Name</string>
+			<string>Local Address</string>
 			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
 		</dict>
 		<dict>
+			<key>AutocapitalizationType</key>
+			<string>None</string>
+			<key>AutocorrectionType</key>
+			<string>No</string>
 			<key>DefaultValue</key>
-			<true/>
+			<string>http://lymeshome.net</string>
+			<key>IsSecure</key>
+			<false/>
 			<key>Key</key>
-			<string>enabled_preference</string>
+			<string>InternetAddress</string>
+			<key>KeyboardType</key>
+			<string>Alphabet</string>
 			<key>Title</key>
-			<string>Enabled</string>
+			<string>Internet Address</string>
 			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
+			<string>PSTextFieldSpecifier</string>
 		</dict>
 		<dict>
+			<key>AutocapitalizationType</key>
+			<string>None</string>
+			<key>AutocorrectionType</key>
+			<string>No</string>
 			<key>DefaultValue</key>
-			<real>0.5</real>
+			<string>admin</string>
+			<key>IsSecure</key>
+			<false/>
 			<key>Key</key>
-			<string>slider_preference</string>
-			<key>MaximumValue</key>
-			<integer>1</integer>
-			<key>MaximumValueImage</key>
-			<string></string>
-			<key>MinimumValue</key>
-			<integer>0</integer>
-			<key>MinimumValueImage</key>
+			<string>Username</string>
+			<key>KeyboardType</key>
+			<string>Alphabet</string>
+			<key>Title</key>
+			<string>Username</string>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+		</dict>
+		<dict>
+			<key>AutocapitalizationType</key>
+			<string>None</string>
+			<key>AutocorrectionType</key>
+			<string>No</string>
+			<key>DefaultValue</key>
+			<string>230282</string>
+			<key>IsSecure</key>
+			<true/>
+			<key>Key</key>
+			<string>Password</string>
+			<key>KeyboardType</key>
+			<string>Alphabet</string>
+			<key>Title</key>
+			<string>Password</string>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Video</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Video Resolution</string>
+			<key>Key</key>
+			<string>VideoResolution</string>
+			<key>DefaultValue</key>
+			<string>1</string>
+			<key>Titles</key>
+			<array>
+				<string>160x120</string>
+				<string>320x240</string>
+				<string>640x480</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>0</string>
+				<string>1</string>
+				<string>2</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
 			<string></string>
 			<key>Type</key>
-			<string>PSSliderSpecifier</string>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>AutocapitalizationType</key>
+			<string>None</string>
+			<key>AutocorrectionType</key>
+			<string>No</string>
+			<key>DefaultValue</key>
+			<string>1.0</string>
+			<key>IsSecure</key>
+			<false/>
+			<key>Key</key>
+			<string>Version</string>
+			<key>KeyboardType</key>
+			<string>Alphabet</string>
+			<key>Title</key>
+			<string>Version</string>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
 		</dict>
 	</array>
 	<key>StringsTable</key>

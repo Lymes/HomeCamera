@@ -26,13 +26,15 @@
 #import <UIKit/UIKit.h>
 
 @interface MotionJpegImageView : UIImageView {
-    
-@private
+
+    @private
     NSURL *_url;
     NSURLConnection *_connection;
     NSMutableData *_receivedData;
 }
 
+@property NSString *userName;
+@property NSString *password;
 @property (nonatomic, readwrite, copy) NSURL *url;
 @property (readonly) BOOL isPlaying;
 
