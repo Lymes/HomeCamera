@@ -79,7 +79,6 @@
 		223E3E4819FE9093000CC2A8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/MainStoryboard_iPhone.strings; sourceTree = "<group>"; };
 		223E3E4B19FE913A000CC2A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		223E3E4D19FE9146000CC2A8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		223E3E8F19FE93C2000CC2A8 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		223E3E9219FE9B43000CC2A8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,7 +128,6 @@
 		1BF79EF5175115ED00E7BB15 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				223E3E8F19FE93C2000CC2A8 /* MessageUI.framework */,
 				1BF79EF6175115ED00E7BB15 /* UIKit.framework */,
 				1BF79EF8175115ED00E7BB15 /* Foundation.framework */,
 				1BF79EFA175115ED00E7BB15 /* CoreGraphics.framework */,
