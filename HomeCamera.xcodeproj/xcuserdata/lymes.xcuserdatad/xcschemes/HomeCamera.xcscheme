@@ -17,7 +17,7 @@
                BlueprintIdentifier = "1BF79EF2175115ED00E7BB15"
                BuildableName = "HomeCamera.app"
                BlueprintName = "HomeCamera"
-               ReferencedContainer = "container:HomeCamera.xcodeproj">
+               ReferencedContainer = "container:homecamera.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
             BlueprintIdentifier = "1BF79EF2175115ED00E7BB15"
             BuildableName = "HomeCamera.app"
             BlueprintName = "HomeCamera"
-            ReferencedContainer = "container:HomeCamera.xcodeproj">
+            ReferencedContainer = "container:homecamera.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -47,14 +47,15 @@
       buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
-      allowLocationSimulation = "YES">
+      allowLocationSimulation = "YES"
+      language = "ru">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1BF79EF2175115ED00E7BB15"
             BuildableName = "HomeCamera.app"
             BlueprintName = "HomeCamera"
-            ReferencedContainer = "container:HomeCamera.xcodeproj">
+            ReferencedContainer = "container:homecamera.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -72,7 +73,7 @@
             BlueprintIdentifier = "1BF79EF2175115ED00E7BB15"
             BuildableName = "HomeCamera.app"
             BlueprintName = "HomeCamera"
-            ReferencedContainer = "container:HomeCamera.xcodeproj">
+            ReferencedContainer = "container:homecamera.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
