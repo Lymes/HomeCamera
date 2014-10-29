@@ -84,7 +84,7 @@ enum
 
     __block typeof( self ) _self = self;
     [[NSNotificationCenter defaultCenter] addObserverForName:InAppSettingsViewControllerDelegateDidDismissedNotification object:nil queue:nil usingBlock:^( NSNotification *notification ) {
-         [_self.imageView play];
+         [_self reset:self];
      }];
 
     [self play];
@@ -95,6 +95,10 @@ enum
 
 - (void)play
 {
+    if ( self.imageView.isPlaying )
+    {
+        [self.imageView stop];
+    }
     NSString *urlAddress = [[NSUserDefaults standardUserDefaults] stringForKey:kInternetAddress];
     NSString *localAddress = [[NSUserDefaults standardUserDefaults] stringForKey:kLocalAddress];
     NSString *ipAddress = [self getIPAddress];
@@ -162,7 +166,7 @@ enum
     if ( [segue.identifier isEqualToString:@"Preferences"] )
     {
     }
-    [self.imageView stop];
+    [self stop];
 }
 
 

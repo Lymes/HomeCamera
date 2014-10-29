@@ -200,6 +200,7 @@ static NSData *_endMarkerData = nil;
         UIImage *receivedImage = [UIImage imageWithData:imageData];
         if ( receivedImage )
         {
+            // NSLog(@"%fx%f", receivedImage.size.width, receivedImage.size.height);
             self.image = receivedImage;
         }
         _receivedData = [NSMutableData new];
