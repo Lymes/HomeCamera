@@ -14,7 +14,12 @@
 #define kHeaderHeight 200
 
 
-@interface VideoTableViewController ()
+@interface VideoTableViewController () {
+
+    UIImageOrientation scrollOrientation;
+    CGPoint lastPos;
+
+}
 
 @property UIView *headerView;
 @property MPMoviePlayerController *videoPlayer;
@@ -29,9 +34,28 @@ static NSDateFormatter *_fmt;
 @implementation VideoTableViewController
 
 
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    if ( [self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)] )
+    {
+        // iOS 7
+        [self prefersStatusBarHidden];
+        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+    }
+    else
+    {
+        // iOS 6
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    }
+
 
     if ( !_fmt )
     {
@@ -76,6 +100,9 @@ static NSDateFormatter *_fmt;
         }
     }
     self.videoItems = items;
+    [self.tableView reloadData];
+
+    // [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationRight];
     [self.tableView reloadData];
 }
 
@@ -133,6 +160,63 @@ static NSDateFormatter *_fmt;
     cell.detailTextLabel.text = length;
 
     return cell;
+}
+
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ( tableView.isDragging )
+    {
+        CALayer *layer = cell.layer;
+        CATransform3D rotationAndPerspectiveTransform = CATransform3DIdentity;
+        rotationAndPerspectiveTransform.m34 = 1.0 / -1000;
+        if ( scrollOrientation == UIImageOrientationDown )
+        {
+            rotationAndPerspectiveTransform = CATransform3DRotate( rotationAndPerspectiveTransform, M_PI * 0.5, 1.0f, 0.0f, 0.0f );
+        }
+        else
+        {
+            rotationAndPerspectiveTransform = CATransform3DRotate( rotationAndPerspectiveTransform, -M_PI * 0.5, 1.0f, 0.0f, 0.0f );
+        }
+        layer.transform = rotationAndPerspectiveTransform;
+
+        [UIView animateWithDuration:1.0 animations:^{
+             layer.transform = CATransform3DIdentity;
+         }];
+    }
+    else
+    {
+        // 1. Setup the CATransform3D structure
+        CATransform3D rotation;
+
+        rotation = CATransform3DMakeRotation( (90.0 * M_PI) / 180, 0.0, 0.7, 0.4 );
+        rotation.m34 = 1.0 / -600;
+
+
+        // 2. Define the initial state (Before the animation)
+        cell.layer.shadowColor = [[UIColor blackColor]CGColor];
+        cell.layer.shadowOffset = CGSizeMake( 10, 10 );
+        cell.alpha = 0;
+
+        cell.layer.transform = rotation;
+        cell.layer.anchorPoint = CGPointMake( 0, 0.5 );
+
+
+        // 3. Define the final state (After the animation) and commit the animation
+        [UIView beginAnimations:@"rotation" context:NULL];
+        [UIView setAnimationDuration:0.8];
+        cell.layer.transform = CATransform3DIdentity;
+        cell.alpha = 1;
+        cell.layer.shadowOffset = CGSizeMake( 0, 0 );
+        [UIView commitAnimations];
+    }
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    scrollOrientation = scrollView.contentOffset.y > lastPos.y ? UIImageOrientationDown : UIImageOrientationUp;
+    lastPos = scrollView.contentOffset;
 }
 
 

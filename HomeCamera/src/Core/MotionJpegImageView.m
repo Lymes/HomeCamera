@@ -206,7 +206,8 @@ static NSData *_endMarkerData = nil;
             self.size = receivedImage.size;
             if ( self.isRecording )
             {
-                [self pushFrame:receivedImage];
+                //[self pushFrame:receivedImage];
+                [self performSelectorOnMainThread:@selector(pushFrame:) withObject:receivedImage waitUntilDone:NO];
             }
         }
         _receivedData = [NSMutableData new];

@@ -26,6 +26,7 @@ NSString *const InAppSettingsTapNotification = @"InAppSettingsTapNotification";
 
 @implementation InAppSettingsModalViewController
 
+
 - (id)init
 {
     InAppSettingsViewController *settings = [[InAppSettingsViewController alloc] init];
@@ -54,6 +55,13 @@ NSString *const InAppSettingsTapNotification = @"InAppSettingsTapNotification";
 @end
 
 @implementation InAppSettingsViewController
+
+
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
 
 #pragma mark modal view
 
@@ -94,6 +102,18 @@ NSString *const InAppSettingsTapNotification = @"InAppSettingsTapNotification";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    if ( [self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)] )
+    {
+        // iOS 7
+        [self prefersStatusBarHidden];
+        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+    }
+    else
+    {
+        // iOS 6
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    }
 
     // setup the table
     self.settingsTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
