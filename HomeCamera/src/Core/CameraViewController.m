@@ -8,7 +8,9 @@
 
 #import "CameraViewController.h"
 #import "MotionJpegImageView.h"
+#import "MotionJpegImageView+Recording.h"
 #import "InAppSettings.h"
+#import "RecordButton.h"
 #import "Base64.h"
 #import <ifaddrs.h>
 #import <arpa/inet.h>
@@ -81,12 +83,12 @@ enum
     [[self view] addGestureRecognizer:swipeRightRecognizer];
     [[self view] addGestureRecognizer:pinchRecognizer];
     [[self view] addGestureRecognizer:tapRecognizer];
+}
 
-    __block typeof( self ) _self = self;
-    [[NSNotificationCenter defaultCenter] addObserverForName:InAppSettingsViewControllerDelegateDidDismissedNotification object:nil queue:nil usingBlock:^( NSNotification *notification ) {
-         [_self reset:self];
-     }];
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     [self play];
 }
 
@@ -110,7 +112,8 @@ enum
     if ( lastDot != NSNotFound )
     {
         NSString *network = [host substringToIndex:lastDot];
-        if ( [ipAddress containsString:network] )
+        // if ( [ipAddress containsString:network] )
+        if ( [ipAddress rangeOfString:network].location != NSNotFound )
         {
             urlAddress = localAddress;
             self.isUsingInternet = NO;
@@ -138,6 +141,29 @@ enum
 {
     [self stop];
     [self play];
+}
+
+
+- (IBAction)toggleRecording:(id)sender
+{
+    if ( self.imageView.isRecording )
+    {
+        [self.imageView stopRecording];
+        [sender animate:NO];
+    }
+    else
+    {
+        if ( self.imageView.isPlaying )
+        {
+            NSArray *paths = NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES );
+            NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
+            NSDateFormatter *fmt = [NSDateFormatter new];
+            [fmt setDateFormat:@"yyyyMMddHHmmss"];
+            NSString *filePath = [NSString stringWithFormat:@"%@/video_%@.mp4", documentsDirectory, [fmt stringFromDate:[NSDate new]]];
+            [self.imageView startRecordingToFile:filePath];
+            [sender animate:YES];
+        }
+    }
 }
 
 

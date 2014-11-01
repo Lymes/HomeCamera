@@ -37,6 +37,7 @@
 @property NSString *password;
 @property (nonatomic, readwrite, copy) NSURL *url;
 @property (readonly) BOOL isPlaying;
+@property CGSize size;
 
 - (void)play;
 - (void)pause;

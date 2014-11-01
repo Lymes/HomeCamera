@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B11DE651A02BB1B00AB06D2 /* VideoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B11DE641A02BB1B00AB06D2 /* VideoTableViewController.m */; };
+		1B121EFA1A02C4DD00F743B0 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B121EF91A02C4DD00F743B0 /* MediaPlayer.framework */; };
+		1B3CDA8E1A051AC3001776D2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B3CDA8D1A051AC3001776D2 /* QuartzCore.framework */; };
+		1B3CDA911A0547F9001776D2 /* ThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3CDA901A0547F9001776D2 /* ThemeManager.m */; };
+		1BF45DB31A01552E00A2F6C6 /* MotionJpegImageView+Recording.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF45DB21A01552E00A2F6C6 /* MotionJpegImageView+Recording.m */; };
+		1BF45DB51A0155BC00A2F6C6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF45DB41A0155BC00A2F6C6 /* AVFoundation.framework */; };
+		1BF45DB71A0156BC00A2F6C6 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF45DB61A0156BC00A2F6C6 /* CoreMedia.framework */; };
+		1BF45DB91A01594600A2F6C6 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF45DB81A01594600A2F6C6 /* CoreVideo.framework */; };
+		1BF45DBC1A019DC000A2F6C6 /* DismissSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF45DBB1A019DC000A2F6C6 /* DismissSegue.m */; };
 		1BF79EF7175115ED00E7BB15 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF79EF6175115ED00E7BB15 /* UIKit.framework */; };
 		1BF79EF9175115ED00E7BB15 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF79EF8175115ED00E7BB15 /* Foundation.framework */; };
 		1BF79EFB175115ED00E7BB15 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF79EFA175115ED00E7BB15 /* CoreGraphics.framework */; };
@@ -14,7 +23,7 @@
 		223E3E0719FE7D78000CC2A8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3DFF19FE7D78000CC2A8 /* main.m */; };
 		223E3E0C19FE7DA3000CC2A8 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 223E3E0A19FE7DA3000CC2A8 /* MainStoryboard_iPhone.storyboard */; };
 		223E3E1719FE7E80000CC2A8 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3E1419FE7E80000CC2A8 /* CameraViewController.m */; };
-		223E3E1819FE7E80000CC2A8 /* MotionJpegImageView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 223E3E1619FE7E80000CC2A8 /* MotionJpegImageView.mm */; };
+		223E3E1819FE7E80000CC2A8 /* MotionJpegImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3E1619FE7E80000CC2A8 /* MotionJpegImageView.m */; };
 		223E3E3419FE7E8C000CC2A8 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3E1B19FE7E8C000CC2A8 /* Base64.m */; };
 		223E3E3519FE7E8C000CC2A8 /* InAppSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3E1E19FE7E8C000CC2A8 /* InAppSettings.m */; };
 		223E3E3619FE7E8C000CC2A8 /* InAppSettingsPSChildPaneSpecifierCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3E2119FE7E8C000CC2A8 /* InAppSettingsPSChildPaneSpecifierCell.m */; };
@@ -31,10 +40,25 @@
 		223E3E4719FE8F54000CC2A8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 223E3E4619FE8F54000CC2A8 /* Images.xcassets */; };
 		223E3E4C19FE913A000CC2A8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 223E3E4A19FE913A000CC2A8 /* InfoPlist.strings */; };
 		223E3E9319FE9B43000CC2A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 223E3E9119FE9B43000CC2A8 /* Localizable.strings */; };
+		227963FA1A02722B005159D6 /* RecordButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 227963F91A02722B005159D6 /* RecordButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1B03FD7D1A003A7F00914210 /* BundleVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BundleVersion.h; sourceTree = "<group>"; };
+		1B11DE631A02BB1B00AB06D2 /* VideoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoTableViewController.h; path = homecamera/src/Core/VideoTableViewController.h; sourceTree = SOURCE_ROOT; };
+		1B11DE641A02BB1B00AB06D2 /* VideoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoTableViewController.m; path = homecamera/src/Core/VideoTableViewController.m; sourceTree = SOURCE_ROOT; };
+		1B121EF81A02BC7E00F743B0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/MainStoryboard_iPhone.strings; sourceTree = "<group>"; };
+		1B121EF91A02C4DD00F743B0 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		1B3CDA8D1A051AC3001776D2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		1B3CDA8F1A0547F9001776D2 /* ThemeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeManager.h; path = homecamera/src/Core/ThemeManager.h; sourceTree = SOURCE_ROOT; };
+		1B3CDA901A0547F9001776D2 /* ThemeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeManager.m; path = homecamera/src/Core/ThemeManager.m; sourceTree = SOURCE_ROOT; };
+		1BF45DB11A01552E00A2F6C6 /* MotionJpegImageView+Recording.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MotionJpegImageView+Recording.h"; sourceTree = "<group>"; };
+		1BF45DB21A01552E00A2F6C6 /* MotionJpegImageView+Recording.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MotionJpegImageView+Recording.m"; sourceTree = "<group>"; };
+		1BF45DB41A0155BC00A2F6C6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		1BF45DB61A0156BC00A2F6C6 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		1BF45DB81A01594600A2F6C6 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		1BF45DBA1A019DC000A2F6C6 /* DismissSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DismissSegue.h; sourceTree = "<group>"; };
+		1BF45DBB1A019DC000A2F6C6 /* DismissSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DismissSegue.m; sourceTree = "<group>"; };
 		1BF79EF3175115ED00E7BB15 /* HomeCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BF79EF6175115ED00E7BB15 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1BF79EF8175115ED00E7BB15 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -48,7 +72,7 @@
 		223E3E1319FE7E80000CC2A8 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
 		223E3E1419FE7E80000CC2A8 /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		223E3E1519FE7E80000CC2A8 /* MotionJpegImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MotionJpegImageView.h; sourceTree = "<group>"; };
-		223E3E1619FE7E80000CC2A8 /* MotionJpegImageView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MotionJpegImageView.mm; sourceTree = "<group>"; };
+		223E3E1619FE7E80000CC2A8 /* MotionJpegImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MotionJpegImageView.m; sourceTree = "<group>"; };
 		223E3E1A19FE7E8C000CC2A8 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
 		223E3E1B19FE7E8C000CC2A8 /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
 		223E3E1D19FE7E8C000CC2A8 /* InAppSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppSettings.h; sourceTree = "<group>"; };
@@ -76,10 +100,11 @@
 		223E3E3319FE7E8C000CC2A8 /* InAppSettingsTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppSettingsTableCell.m; sourceTree = "<group>"; };
 		223E3E4019FE7EA7000CC2A8 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = Resources/Settings.bundle; sourceTree = "<group>"; };
 		223E3E4619FE8F54000CC2A8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Resources/Images.xcassets; sourceTree = "<group>"; };
-		223E3E4819FE9093000CC2A8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/MainStoryboard_iPhone.strings; sourceTree = "<group>"; };
 		223E3E4B19FE913A000CC2A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		223E3E4D19FE9146000CC2A8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		223E3E9219FE9B43000CC2A8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		227963F81A02722B005159D6 /* RecordButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordButton.h; path = homecamera/src/Utils/RecordButton.h; sourceTree = SOURCE_ROOT; };
+		227963F91A02722B005159D6 /* RecordButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecordButton.m; path = homecamera/src/Utils/RecordButton.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +112,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B3CDA8E1A051AC3001776D2 /* QuartzCore.framework in Frameworks */,
+				1B121EFA1A02C4DD00F743B0 /* MediaPlayer.framework in Frameworks */,
+				1BF45DB91A01594600A2F6C6 /* CoreVideo.framework in Frameworks */,
+				1BF45DB71A0156BC00A2F6C6 /* CoreMedia.framework in Frameworks */,
+				1BF45DB51A0155BC00A2F6C6 /* AVFoundation.framework in Frameworks */,
 				1BF79EF7175115ED00E7BB15 /* UIKit.framework in Frameworks */,
 				1BF79EF9175115ED00E7BB15 /* Foundation.framework in Frameworks */,
 				1BF79EFB175115ED00E7BB15 /* CoreGraphics.framework in Frameworks */,
@@ -128,6 +158,11 @@
 		1BF79EF5175115ED00E7BB15 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1B3CDA8D1A051AC3001776D2 /* QuartzCore.framework */,
+				1B121EF91A02C4DD00F743B0 /* MediaPlayer.framework */,
+				1BF45DB81A01594600A2F6C6 /* CoreVideo.framework */,
+				1BF45DB61A0156BC00A2F6C6 /* CoreMedia.framework */,
+				1BF45DB41A0155BC00A2F6C6 /* AVFoundation.framework */,
 				1BF79EF6175115ED00E7BB15 /* UIKit.framework */,
 				1BF79EF8175115ED00E7BB15 /* Foundation.framework */,
 				1BF79EFA175115ED00E7BB15 /* CoreGraphics.framework */,
@@ -173,7 +208,13 @@
 				223E3E1319FE7E80000CC2A8 /* CameraViewController.h */,
 				223E3E1419FE7E80000CC2A8 /* CameraViewController.m */,
 				223E3E1519FE7E80000CC2A8 /* MotionJpegImageView.h */,
-				223E3E1619FE7E80000CC2A8 /* MotionJpegImageView.mm */,
+				223E3E1619FE7E80000CC2A8 /* MotionJpegImageView.m */,
+				1BF45DB11A01552E00A2F6C6 /* MotionJpegImageView+Recording.h */,
+				1BF45DB21A01552E00A2F6C6 /* MotionJpegImageView+Recording.m */,
+				1B11DE631A02BB1B00AB06D2 /* VideoTableViewController.h */,
+				1B11DE641A02BB1B00AB06D2 /* VideoTableViewController.m */,
+				1B3CDA8F1A0547F9001776D2 /* ThemeManager.h */,
+				1B3CDA901A0547F9001776D2 /* ThemeManager.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -184,6 +225,10 @@
 				223E3E1A19FE7E8C000CC2A8 /* Base64.h */,
 				223E3E1B19FE7E8C000CC2A8 /* Base64.m */,
 				223E3E1C19FE7E8C000CC2A8 /* InAppSettings */,
+				1BF45DBA1A019DC000A2F6C6 /* DismissSegue.h */,
+				1BF45DBB1A019DC000A2F6C6 /* DismissSegue.m */,
+				227963F81A02722B005159D6 /* RecordButton.h */,
+				227963F91A02722B005159D6 /* RecordButton.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -325,16 +370,21 @@
 				223E3E3F19FE7E8C000CC2A8 /* InAppSettingsTableCell.m in Sources */,
 				223E3E1719FE7E80000CC2A8 /* CameraViewController.m in Sources */,
 				223E3E3519FE7E8C000CC2A8 /* InAppSettings.m in Sources */,
-				223E3E1819FE7E80000CC2A8 /* MotionJpegImageView.mm in Sources */,
+				223E3E1819FE7E80000CC2A8 /* MotionJpegImageView.m in Sources */,
 				223E3E3E19FE7E8C000CC2A8 /* InAppSettingsSpecifier.m in Sources */,
 				223E3E3719FE7E8C000CC2A8 /* InAppSettingsPSMultiValueSpecifierCell.m in Sources */,
+				1B3CDA911A0547F9001776D2 /* ThemeManager.m in Sources */,
 				223E3E0719FE7D78000CC2A8 /* main.m in Sources */,
 				223E3E3419FE7E8C000CC2A8 /* Base64.m in Sources */,
+				1BF45DBC1A019DC000A2F6C6 /* DismissSegue.m in Sources */,
+				1B11DE651A02BB1B00AB06D2 /* VideoTableViewController.m in Sources */,
 				223E3E3919FE7E8C000CC2A8 /* InAppSettingsPSSliderSpecifierCell.m in Sources */,
+				1BF45DB31A01552E00A2F6C6 /* MotionJpegImageView+Recording.m in Sources */,
 				223E3E3A19FE7E8C000CC2A8 /* InAppSettingsPSTextFieldSpecifierCell.m in Sources */,
 				223E3E3D19FE7E8C000CC2A8 /* InAppSettingsReader.m in Sources */,
 				223E3E3C19FE7E8C000CC2A8 /* InAppSettingsPSToggleSwitchSpecifierCell.m in Sources */,
 				223E3E3819FE7E8C000CC2A8 /* InAppSettingsPSMultiValueSpecifierTable.m in Sources */,
+				227963FA1A02722B005159D6 /* RecordButton.m in Sources */,
 				223E3E0419FE7D78000CC2A8 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -346,7 +396,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				223E3E0B19FE7DA3000CC2A8 /* Base */,
-				223E3E4819FE9093000CC2A8 /* ru */,
+				1B121EF81A02BC7E00F743B0 /* ru */,
 			);
 			name = MainStoryboard_iPhone.storyboard;
 			sourceTree = "<group>";

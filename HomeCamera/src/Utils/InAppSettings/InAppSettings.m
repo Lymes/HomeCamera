@@ -29,7 +29,7 @@ NSString *const InAppSettingsTapNotification = @"InAppSettingsTapNotification";
 - (id)init
 {
     InAppSettingsViewController *settings = [[InAppSettingsViewController alloc] init];
-    
+
     [settings addDoneButton];
     return [[InAppSettingsModalViewController alloc] initWithRootViewController:settings];
 }
@@ -38,9 +38,14 @@ NSString *const InAppSettingsTapNotification = @"InAppSettingsTapNotification";
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
+
     InAppSettingsViewController *settings = [[InAppSettingsViewController alloc] init];
     [settings addDoneButton];
-    settings.edgesForExtendedLayout = UIRectEdgeNone;
+
+//    if ( [settings respondsToSelector:@selector(setEdgesForExtendedLayout:)] )
+//    {
+//        settings.edgesForExtendedLayout = UIRectEdgeNone;
+//    }
     [self pushViewController:settings animated:NO];
     return self;
 }
@@ -56,19 +61,19 @@ NSString *const InAppSettingsTapNotification = @"InAppSettingsTapNotification";
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:InAppSettingsViewControllerDelegateWillDismissedNotification object:self];
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:InAppSettingsViewControllerDelegateDidDismissedNotification object:self];
-    }];
+         [[NSNotificationCenter defaultCenter] postNotificationName:InAppSettingsViewControllerDelegateDidDismissedNotification object:self];
+     }];
 }
 
 
 - (void)addDoneButton
 {
     UIBarButtonItem *doneButton =
-    [[UIBarButtonItem alloc]
-     initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-     target:self
-     action:@selector(dismissModalView:)];
-    
+        [[UIBarButtonItem alloc]
+         initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                              target:self
+                              action:@selector(dismissModalView:)];
+
     self.navigationItem.rightBarButtonItem = doneButton;
 }
 
@@ -89,28 +94,28 @@ NSString *const InAppSettingsTapNotification = @"InAppSettingsTapNotification";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     // setup the table
     self.settingsTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.settingsTableView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     self.settingsTableView.delegate = self;
     self.settingsTableView.dataSource = self;
     [self.view addSubview:self.settingsTableView];
-    
+
     // if the title is nil set it to Settings
     if ( !self.title )
     {
         self.title = NSLocalizedString( @"Settings", nil );
     }
-    
+
     // load settigns plist
     if ( !self.file )
     {
         self.file = InAppSettingsRootFile;
     }
-    
+
     self.settingsReader = [[InAppSettingsReader alloc] initWithFile:self.file];
-    
+
     // setup keyboard notification
     self.firstResponder = nil;
     [self registerForKeyboardNotifications];
@@ -120,12 +125,12 @@ NSString *const InAppSettingsTapNotification = @"InAppSettingsTapNotification";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     self.firstResponder = nil;
-    
-    self.settingsTableView.contentInset = UIEdgeInsetsZero;
+
+    // self.settingsTableView.contentInset = UIEdgeInsetsZero;
     self.settingsTableView.scrollIndicatorInsets = UIEdgeInsetsZero;
-    
+
     [self.settingsTableView reloadData];
 }
 
@@ -149,7 +154,7 @@ NSString *const InAppSettingsTapNotification = @"InAppSettingsTapNotification";
 - (void)textFieldDidBeginEditing:(UITextField *)cellTextField
 {
     self.firstResponder = cellTextField;
-    
+
     // TODO: find a better way to get the cell from the text view
     NSIndexPath *indexPath = [self.settingsTableView indexPathForCell:(UITableViewCell *)[[cellTextField superview] superview]];
     [self.settingsTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
@@ -174,11 +179,11 @@ NSString *const InAppSettingsTapNotification = @"InAppSettingsTapNotification";
 {
     [[NSNotificationCenter defaultCenter]
      addObserver:self selector:@selector(keyboardWillShow:)
-     name:UIKeyboardWillShowNotification object:nil];
-    
+            name:UIKeyboardWillShowNotification object:nil];
+
     [[NSNotificationCenter defaultCenter]
      addObserver:self selector:@selector(keyboardWillHide:)
-     name:UIKeyboardWillHideNotification object:nil];
+            name:UIKeyboardWillHideNotification object:nil];
 }
 
 
@@ -193,12 +198,12 @@ NSString *const InAppSettingsTapNotification = @"InAppSettingsTapNotification";
         [userInfo[UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
         [userInfo[UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
         [userInfo[UIKeyboardFrameEndUserInfoKey] getValue:&keyboardEndFrame];
-        
+
         UIEdgeInsets settingsTableInset = self.settingsTableView.contentInset;
         CGPoint tableViewScreenSpace = [self.settingsTableView.superview convertPoint:self.settingsTableView.frame.origin toView:nil];
         CGFloat tableViewBottomOffset = CGRectGetHeight( self.view.bounds ) - (tableViewScreenSpace.y + self.settingsTableView.frame.size.height);
         settingsTableInset.bottom = CGRectGetHeight( keyboardEndFrame ) - tableViewBottomOffset;
-        
+
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:animationCurve];
         [UIView setAnimationDuration:animationDuration];
@@ -219,7 +224,7 @@ NSString *const InAppSettingsTapNotification = @"InAppSettingsTapNotification";
         NSDictionary *userInfo = [notification userInfo];
         [userInfo[UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
         [userInfo[UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
-        
+
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:animationCurve];
         [UIView setAnimationDuration:animationDuration];
@@ -266,17 +271,17 @@ NSString *const InAppSettingsTapNotification = @"InAppSettingsTapNotification";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     InAppSettingsSpecifier *setting = [self settingAtIndexPath:indexPath];
-    
+
     // get the NSClass for a specifier, if there is none use the base class InAppSettingsTableCell
     NSString *cellType = [setting cellName];
     Class nsclass = NSClassFromString( cellType );
-    
+
     if ( !nsclass )
     {
         cellType = @"InAppSettingsTableCell";
         nsclass = NSClassFromString( cellType );
     }
-    
+
     InAppSettingsTableCell *cell = ((InAppSettingsTableCell *)[tableView dequeueReusableCellWithIdentifier:cellType]);
     if ( cell == nil )
     {
@@ -284,12 +289,12 @@ NSString *const InAppSettingsTapNotification = @"InAppSettingsTapNotification";
         // setup the cells controlls
         [cell setupCell];
     }
-    
+
     // set the values of the cell, this is separated from setupCell for reloading the table
     cell.setting = setting;
     [cell setValueDelegate:self];
     [cell setUIValues];
-    
+
     return cell;
 }
 
@@ -297,7 +302,7 @@ NSString *const InAppSettingsTapNotification = @"InAppSettingsTapNotification";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     InAppSettingsSpecifier *setting = [self settingAtIndexPath:indexPath];
-    
+
     if ( [setting isType:InAppSettingsPSMultiValueSpecifier] )
     {
         InAppSettingsPSMultiValueSpecifierTable *multiValueSpecifier = [[InAppSettingsPSMultiValueSpecifierTable alloc] initWithSetting:setting];
@@ -336,7 +341,7 @@ NSString *const InAppSettingsTapNotification = @"InAppSettingsTapNotification";
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     InAppSettingsTableCell *cell = ((InAppSettingsTableCell *)[tableView cellForRowAtIndexPath:indexPath]);
-    
+
     if ( [cell.setting isType:@"PSTextFieldSpecifier"] )
     {
         [cell.valueInput becomeFirstResponder];

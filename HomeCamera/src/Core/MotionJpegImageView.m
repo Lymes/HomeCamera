@@ -24,6 +24,7 @@
 // SOFTWARE.
 
 #import "MotionJpegImageView.h"
+#import "MotionJpegImageView+Recording.h"
 #import "Base64.h"
 
 #pragma mark - Constants
@@ -202,6 +203,11 @@ static NSData *_endMarkerData = nil;
         {
             // NSLog(@"%fx%f", receivedImage.size.width, receivedImage.size.height);
             self.image = receivedImage;
+            self.size = receivedImage.size;
+            if ( self.isRecording )
+            {
+                [self pushFrame:receivedImage];
+            }
         }
         _receivedData = [NSMutableData new];
     }

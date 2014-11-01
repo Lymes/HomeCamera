@@ -1,3 +1,12 @@
 
+/* Class = "IBUIButton"; normalTitle = "Videos"; ObjectID = "5zD-3U-QH2"; */
+"5zD-3U-QH2.normalTitle" = "Видео";
+
+/* Class = "IBUIButton"; normalTitle = "REC"; ObjectID = "EIc-WS-H7D"; */
+"EIc-WS-H7D.normalTitle" = "REC";
+
+/* Class = "IBUINavigationItem"; title = "Videos"; ObjectID = "MSd-hl-DGT"; */
+"MSd-hl-DGT.title" = "Видео";
+
 /* Class = "IBUILabel"; text = "Copyright 2013 L.Y.Mesentsev, All rights reserved."; ObjectID = "PIP-84-7g0"; */
 "PIP-84-7g0.text" = "Копирайт 2013 Л.Ю.Мезенцев, Все права защищены.";
