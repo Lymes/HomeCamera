@@ -11,8 +11,6 @@
 
 @interface CameraViewController : UIViewController
 
-- (IBAction)reset:(id)sender;
-
 - (void)play;
 - (void)stop;
 

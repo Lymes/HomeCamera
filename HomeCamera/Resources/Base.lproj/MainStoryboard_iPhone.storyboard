@@ -17,7 +17,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="7VS-gC-JEg" customClass="RecordButton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="7VS-gC-JEg">
                                 <rect key="frame" x="270" y="33" width="32" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -25,7 +25,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="toggleRecording:" destination="2" eventType="touchDown" id="daA-BB-8Sr"/>
+                                    <action selector="reset:" destination="2" eventType="touchDown" id="da6-S6-x1l"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="EIc-WS-H7D" customClass="RecordButton">
@@ -36,7 +36,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="toggleRecording:" destination="2" eventType="touchDown" id="bMj-f1-k6h"/>
+                                    <action selector="toggleRecording:" destination="2" eventType="touchDown" id="KIr-4s-Vzm"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="5zD-3U-QH2">
@@ -46,7 +46,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="95w-wD-IJz" kind="modal" modalTransitionStyle="crossDissolve" id="FTM-aN-Nk4"/>
+                                    <segue destination="95w-wD-IJz" kind="modal" identifier="videosSegue" modalTransitionStyle="crossDissolve" id="FTM-aN-Nk4"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="PNl-jd-cgB">
@@ -61,7 +61,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="nop-Vk-v4e" kind="modal" identifier="Preferences" modalTransitionStyle="flipHorizontal" id="nsz-Zj-EXW"/>
+                                    <segue destination="nop-Vk-v4e" kind="modal" identifier="preferencesSegue" modalTransitionStyle="flipHorizontal" id="nsz-Zj-EXW"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Copyright 2013 L.Y.Mesentsev, All rights reserved." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PIP-84-7g0">

@@ -137,6 +137,9 @@ enum
 }
 
 
+#pragma mark - Actions
+
+
 - (IBAction)reset:(id)sender
 {
     [self stop];
@@ -189,9 +192,6 @@ enum
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ( [segue.identifier isEqualToString:@"Preferences"] )
-    {
-    }
     [self stop];
 }
 

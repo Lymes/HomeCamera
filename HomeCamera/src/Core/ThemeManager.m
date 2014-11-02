@@ -15,7 +15,7 @@
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
-    //[[UITableView appearance] setBackgroundColor:[UIColor grayColor]];
+    [[UITableView appearance] setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:.9f]];
 }
 
 @end

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1B11DE651A02BB1B00AB06D2 /* VideoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B11DE641A02BB1B00AB06D2 /* VideoTableViewController.m */; };
 		1B121EFA1A02C4DD00F743B0 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B121EF91A02C4DD00F743B0 /* MediaPlayer.framework */; };
+		1B240AF41A06532E005B2E39 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B240AF31A06532E005B2E39 /* CameraViewController.m */; };
 		1B3CDA8E1A051AC3001776D2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B3CDA8D1A051AC3001776D2 /* QuartzCore.framework */; };
 		1B3CDA911A0547F9001776D2 /* ThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3CDA901A0547F9001776D2 /* ThemeManager.m */; };
 		1BF45DB31A01552E00A2F6C6 /* MotionJpegImageView+Recording.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF45DB21A01552E00A2F6C6 /* MotionJpegImageView+Recording.m */; };
@@ -22,7 +23,6 @@
 		223E3E0419FE7D78000CC2A8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3DFA19FE7D78000CC2A8 /* AppDelegate.m */; };
 		223E3E0719FE7D78000CC2A8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3DFF19FE7D78000CC2A8 /* main.m */; };
 		223E3E0C19FE7DA3000CC2A8 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 223E3E0A19FE7DA3000CC2A8 /* MainStoryboard_iPhone.storyboard */; };
-		223E3E1719FE7E80000CC2A8 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3E1419FE7E80000CC2A8 /* CameraViewController.m */; };
 		223E3E1819FE7E80000CC2A8 /* MotionJpegImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3E1619FE7E80000CC2A8 /* MotionJpegImageView.m */; };
 		223E3E3419FE7E8C000CC2A8 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3E1B19FE7E8C000CC2A8 /* Base64.m */; };
 		223E3E3519FE7E8C000CC2A8 /* InAppSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3E1E19FE7E8C000CC2A8 /* InAppSettings.m */; };
@@ -49,6 +49,8 @@
 		1B11DE641A02BB1B00AB06D2 /* VideoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoTableViewController.m; path = homecamera/src/Core/VideoTableViewController.m; sourceTree = SOURCE_ROOT; };
 		1B121EF81A02BC7E00F743B0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/MainStoryboard_iPhone.strings; sourceTree = "<group>"; };
 		1B121EF91A02C4DD00F743B0 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		1B240AF21A06532E005B2E39 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CameraViewController.h; path = homecamera/src/Core/CameraViewController.h; sourceTree = SOURCE_ROOT; };
+		1B240AF31A06532E005B2E39 /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CameraViewController.m; path = homecamera/src/Core/CameraViewController.m; sourceTree = SOURCE_ROOT; };
 		1B3CDA8D1A051AC3001776D2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1B3CDA8F1A0547F9001776D2 /* ThemeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeManager.h; path = homecamera/src/Core/ThemeManager.h; sourceTree = SOURCE_ROOT; };
 		1B3CDA901A0547F9001776D2 /* ThemeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeManager.m; path = homecamera/src/Core/ThemeManager.m; sourceTree = SOURCE_ROOT; };
@@ -69,8 +71,6 @@
 		223E3DFA19FE7D78000CC2A8 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		223E3DFF19FE7D78000CC2A8 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		223E3E0B19FE7DA3000CC2A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Resources/Base.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		223E3E1319FE7E80000CC2A8 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
-		223E3E1419FE7E80000CC2A8 /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		223E3E1519FE7E80000CC2A8 /* MotionJpegImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MotionJpegImageView.h; sourceTree = "<group>"; };
 		223E3E1619FE7E80000CC2A8 /* MotionJpegImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MotionJpegImageView.m; sourceTree = "<group>"; };
 		223E3E1A19FE7E8C000CC2A8 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
@@ -205,8 +205,8 @@
 		223E3E1219FE7E80000CC2A8 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				223E3E1319FE7E80000CC2A8 /* CameraViewController.h */,
-				223E3E1419FE7E80000CC2A8 /* CameraViewController.m */,
+				1B240AF21A06532E005B2E39 /* CameraViewController.h */,
+				1B240AF31A06532E005B2E39 /* CameraViewController.m */,
 				223E3E1519FE7E80000CC2A8 /* MotionJpegImageView.h */,
 				223E3E1619FE7E80000CC2A8 /* MotionJpegImageView.m */,
 				1BF45DB11A01552E00A2F6C6 /* MotionJpegImageView+Recording.h */,
@@ -368,7 +368,6 @@
 				223E3E3B19FE7E8C000CC2A8 /* InAppSettingsPSTitleValueSpecifierCell.m in Sources */,
 				223E3E3619FE7E8C000CC2A8 /* InAppSettingsPSChildPaneSpecifierCell.m in Sources */,
 				223E3E3F19FE7E8C000CC2A8 /* InAppSettingsTableCell.m in Sources */,
-				223E3E1719FE7E80000CC2A8 /* CameraViewController.m in Sources */,
 				223E3E3519FE7E8C000CC2A8 /* InAppSettings.m in Sources */,
 				223E3E1819FE7E80000CC2A8 /* MotionJpegImageView.m in Sources */,
 				223E3E3E19FE7E8C000CC2A8 /* InAppSettingsSpecifier.m in Sources */,
@@ -378,6 +377,7 @@
 				223E3E3419FE7E8C000CC2A8 /* Base64.m in Sources */,
 				1BF45DBC1A019DC000A2F6C6 /* DismissSegue.m in Sources */,
 				1B11DE651A02BB1B00AB06D2 /* VideoTableViewController.m in Sources */,
+				1B240AF41A06532E005B2E39 /* CameraViewController.m in Sources */,
 				223E3E3919FE7E8C000CC2A8 /* InAppSettingsPSSliderSpecifierCell.m in Sources */,
 				1BF45DB31A01552E00A2F6C6 /* MotionJpegImageView+Recording.m in Sources */,
 				223E3E3A19FE7E8C000CC2A8 /* InAppSettingsPSTextFieldSpecifierCell.m in Sources */,

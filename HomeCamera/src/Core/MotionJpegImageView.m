@@ -114,6 +114,7 @@ static NSData *_endMarkerData = nil;
     }
     else if ( _url )
     {
+        self.imageSize = CGSizeZero;
         // create a plaintext string in the format username:password
         NSString *loginString = [NSString stringWithFormat:@"%@:%@", self.userName, self.password];
 
@@ -203,11 +204,15 @@ static NSData *_endMarkerData = nil;
         {
             // NSLog(@"%fx%f", receivedImage.size.width, receivedImage.size.height);
             self.image = receivedImage;
-            self.size = receivedImage.size;
+            if ( CGSizeEqualToSize( self.imageSize, CGSizeZero ) )
+            {
+                self.imageSize = receivedImage.size;
+            }
             if ( self.isRecording )
             {
-                //[self pushFrame:receivedImage];
-                [self performSelectorOnMainThread:@selector(pushFrame:) withObject:receivedImage waitUntilDone:NO];
+                dispatch_async( self.recordQueue, ^{
+                                    [self pushFrame:receivedImage];
+                                } );
             }
         }
         _receivedData = [NSMutableData new];

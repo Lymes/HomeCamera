@@ -11,6 +11,7 @@
 @interface MotionJpegImageView (Recording)
 
 @property (nonatomic) BOOL isRecording;
+@property dispatch_queue_t recordQueue;
 
 - (void)startRecordingToFile:(NSString *)path;
 - (void)stopRecording;

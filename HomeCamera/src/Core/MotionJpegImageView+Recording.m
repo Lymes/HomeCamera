@@ -10,12 +10,12 @@
 #import <AVFoundation/AVFoundation.h>
 
 
-#define kRecordingFPS 16
-#define kBitRateKey   @"BitRate"
-
+#define kRecordingFPS   16
+#define kBitRateKey     @"BitRate"
+#define kRecordQueueKey "com.lymes.homecamera.RecordQueue"
 
 static BOOL _isRecording;
-
+static dispatch_queue_t _recordQueue;
 static AVAssetWriter *_videoWriter;
 static AVAssetWriterInput *_videoWriterInput;
 static AVAssetWriterInputPixelBufferAdaptor *_adaptor;
@@ -33,69 +33,73 @@ static NSInteger _frameCount;
         return;
     }
 
-    NSError *error = nil;
-
-    _videoWriter = [[AVAssetWriter alloc] initWithURL:
-                    [NSURL fileURLWithPath:path] fileType:AVFileTypeQuickTimeMovie
-                                                    error:&error];
-    NSParameterAssert( _videoWriter );
-
-    NSDictionary *videoCleanApertureSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                [NSNumber numberWithInt:self.size.width], AVVideoCleanApertureWidthKey,
-                                                [NSNumber numberWithInt:self.size.height], AVVideoCleanApertureHeightKey,
-                                                [NSNumber numberWithInt:10], AVVideoCleanApertureHorizontalOffsetKey,
-                                                [NSNumber numberWithInt:10], AVVideoCleanApertureVerticalOffsetKey,
-                                                nil];
-
-    NSNumber *bitRate = [[NSUserDefaults standardUserDefaults] objectForKey:kBitRateKey];
-    NSDictionary *codecSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   bitRate, AVVideoAverageBitRateKey,
-                                   [NSNumber numberWithInt:1], AVVideoMaxKeyFrameIntervalKey,
-                                   videoCleanApertureSettings, AVVideoCleanApertureKey,
-                                   // videoAspectRatioSettings, AVVideoPixelAspectRatioKey,
-                                   AVVideoProfileLevelH264Main30, AVVideoProfileLevelKey,
-                                   nil];
-
-    NSDictionary *videoSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   AVVideoCodecH264, AVVideoCodecKey,
-                                   codecSettings, AVVideoCompressionPropertiesKey,
-                                   [NSNumber numberWithInt:self.size.width], AVVideoWidthKey,
-                                   [NSNumber numberWithInt:self.size.height], AVVideoHeightKey,
-                                   nil];
-
-    _videoWriterInput = [AVAssetWriterInput
-                         assetWriterInputWithMediaType:AVMediaTypeVideo
-                                        outputSettings:videoSettings];
-
-
-    _adaptor = [AVAssetWriterInputPixelBufferAdaptor
-                assetWriterInputPixelBufferAdaptorWithAssetWriterInput:_videoWriterInput
-                                           sourcePixelBufferAttributes:nil];
-
-    NSParameterAssert( _videoWriterInput );
-    NSParameterAssert( [_videoWriter canAddInput:_videoWriterInput] );
-    _videoWriterInput.expectsMediaDataInRealTime = YES;
-    [_videoWriter addInput:_videoWriterInput];
-
-    // Start a session:
-    [_videoWriter startWriting];
-    [_videoWriter startSessionAtSourceTime:kCMTimeZero];
-
-    _frameCount = 0;
     self.isRecording = YES;
+    if ( !_recordQueue )
+    {
+        _recordQueue = dispatch_queue_create( kRecordQueueKey, nil );
+    }
+
+    dispatch_async( _recordQueue, ^{
+
+                        NSError *error = nil;
+
+                        _videoWriter = [[AVAssetWriter alloc] initWithURL:
+                                        [NSURL fileURLWithPath:path] fileType:AVFileTypeQuickTimeMovie
+                                                                        error:&error];
+                        NSParameterAssert( _videoWriter );
+
+                        NSInteger bitRate = [[NSUserDefaults standardUserDefaults] integerForKey:kBitRateKey];
+                        NSDictionary *videoSettings = @{ AVVideoCodecKey : AVVideoCodecH264,
+                                                         AVVideoCompressionPropertiesKey : @{
+                                                             AVVideoAverageBitRateKey : @(bitRate),
+                                                             AVVideoMaxKeyFrameIntervalKey : @(1),
+                                                             AVVideoCleanApertureKey : @{
+                                                                 AVVideoCleanApertureWidthKey : @(self.imageSize.width),
+                                                                 AVVideoCleanApertureHeightKey : @(self.imageSize.height),
+                                                                 AVVideoCleanApertureHorizontalOffsetKey : @(10),
+                                                                 AVVideoCleanApertureVerticalOffsetKey : @(10)
+                                                             },
+                                                             AVVideoProfileLevelKey : AVVideoProfileLevelH264Main30
+                                                         },
+                                                         AVVideoWidthKey : @(self.imageSize.width),
+                                                         AVVideoHeightKey : @(self.imageSize.height) };
+
+                        _videoWriterInput = [AVAssetWriterInput
+                                             assetWriterInputWithMediaType:AVMediaTypeVideo
+                                                            outputSettings:videoSettings];
+
+                        _adaptor = [AVAssetWriterInputPixelBufferAdaptor
+                                    assetWriterInputPixelBufferAdaptorWithAssetWriterInput:_videoWriterInput
+                                                               sourcePixelBufferAttributes:nil];
+
+                        NSParameterAssert( _videoWriterInput );
+                        NSParameterAssert( [_videoWriter canAddInput:_videoWriterInput] );
+                        _videoWriterInput.expectsMediaDataInRealTime = YES;
+                        [_videoWriter addInput:_videoWriterInput];
+
+                        _videoWriterInput.mediaTimeScale = kRecordingFPS;
+                        _videoWriter.movieTimeScale = kRecordingFPS;
+
+                        // Start a session:
+                        [_videoWriter startWriting];
+                        [_videoWriter startSessionAtSourceTime:kCMTimeZero];
+
+                        _frameCount = 0;
+                    } );
 }
 
 
 - (void)stopRecording
 {
-    self.isRecording = NO;
-    [_videoWriterInput markAsFinished];
-    [_videoWriter endSessionAtSourceTime:CMTimeMake( _frameCount, kRecordingFPS )];
-    [_videoWriter finishWritingWithCompletionHandler:^() {
-
-     }];
-    _videoWriterInput = nil;
-    _videoWriter = nil;
+    dispatch_async( _recordQueue, ^{
+                        [_videoWriterInput markAsFinished];
+                        [_videoWriter endSessionAtSourceTime:CMTimeMake( --_frameCount, kRecordingFPS )];
+                        [_videoWriter finishWritingWithCompletionHandler:^() {
+                             _videoWriterInput = nil;
+                             _videoWriter = nil;
+                             self.isRecording = NO;
+                         }];
+                    } );
 }
 
 
@@ -168,6 +172,18 @@ static NSInteger _frameCount;
 - (void)setIsRecording:(BOOL)isRecording
 {
     _isRecording = isRecording;
+}
+
+
+- (dispatch_queue_t)recordQueue
+{
+    return _recordQueue;
+}
+
+
+- (void)setRecordQueue:(dispatch_queue_t)recordQueue
+{
+    _recordQueue = recordQueue;
 }
 
 

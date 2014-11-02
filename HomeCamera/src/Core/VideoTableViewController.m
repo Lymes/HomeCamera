@@ -8,10 +8,16 @@
 
 #import "VideoTableViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import <AVFoundation/AVFoundation.h>
 
 
 #define kVideoCell    @"videoCell"
 #define kHeaderHeight 200
+
+#define kPathKey      @"path"
+#define kDateKey      @"date"
+#define kSizeKey      @"size"
+#define kDurationKey  @"duration"
 
 
 @interface VideoTableViewController () {
@@ -96,7 +102,7 @@ static NSDateFormatter *_fmt;
         if ( [filePath.pathExtension isEqualToString:@"mp4"] )
         {
             NSString *fullPath = [ docPath stringByAppendingPathComponent:filePath ];
-            [items addObject:fullPath];
+            [items addObject:@{ kPathKey : fullPath }.mutableCopy];
         }
     }
     self.videoItems = items;
@@ -151,13 +157,40 @@ static NSDateFormatter *_fmt;
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kVideoCell forIndexPath:indexPath];
 
-    NSError *error = nil;
-    NSDictionary *dict = [[NSFileManager defaultManager] attributesOfItemAtPath:self.videoItems[ indexPath.row ] error:&error];
+    NSString *path = self.videoItems[ indexPath.row ][ kPathKey ];
+    NSString *date = self.videoItems[ indexPath.row ][ kDateKey ];
+    NSString *size = self.videoItems[ indexPath.row ][ kSizeKey ];
+    NSString *duration = self.videoItems[ indexPath.row ][ kDurationKey ];
 
-    cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString( @"Video %@", nil ), [_fmt stringFromDate:dict.fileCreationDate]];
+    if ( !date || !size )
+    {
+        NSError *error = nil;
+        NSDictionary *dict = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:&error];
+        date = [_fmt stringFromDate:dict.fileCreationDate];
+        self.videoItems[ indexPath.row ][ kDateKey ] = date;
+        size = [NSByteCountFormatter stringFromByteCount:dict.fileSize countStyle:NSByteCountFormatterCountStyleFile];
+        self.videoItems[ indexPath.row ][ kSizeKey ] = size;
+    }
 
-    NSString *length = [NSByteCountFormatter stringFromByteCount:dict.fileSize countStyle:NSByteCountFormatterCountStyleFile];
-    cell.detailTextLabel.text = length;
+    cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString( @"Video %@", nil ), date];
+    cell.detailTextLabel.text = size;
+
+    if ( !duration )
+    {
+        __block UITableViewCell *_cell = cell;
+        AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:path]];
+        [asset loadValuesAsynchronouslyForKeys:@[kDurationKey] completionHandler:^{
+             NSString *duration = [self stringFromDuration:CMTimeGetSeconds( asset.duration )];
+             dispatch_async( dispatch_get_main_queue(), ^{
+                                 self.videoItems[ indexPath.row ][ kDurationKey ] = duration;
+                                 _cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@", _cell.detailTextLabel.text, duration];
+                             } );
+         }];
+    }
+    else
+    {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@", size, duration];
+    }
 
     return cell;
 }
@@ -234,7 +267,7 @@ static NSDateFormatter *_fmt;
 
 - (void)tableView:(UITableView *)tableView swipeAccessoryButtonPushedForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSURL *url = [NSURL fileURLWithPath:self.videoItems[ indexPath.row]];
+    NSURL *url = [NSURL fileURLWithPath:self.videoItems[ indexPath.row][ kPathKey ]];
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:@[url] applicationActivities:nil];
 
     [activityVC setCompletionHandler:^( NSString *activityType, BOOL completed ) {
@@ -249,7 +282,7 @@ static NSDateFormatter *_fmt;
     if ( editingStyle == UITableViewCellEditingStyleDelete )
     {
         NSError *error = nil;
-        [[NSFileManager defaultManager] removeItemAtPath:self.videoItems[ indexPath.row ] error:&error];
+        [[NSFileManager defaultManager] removeItemAtPath:self.videoItems[ indexPath.row ][ kPathKey ] error:&error];
         if ( !error )
         {
             [self.videoItems removeObjectAtIndex:indexPath.row];
@@ -264,7 +297,7 @@ static NSDateFormatter *_fmt;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *videoPath = self.videoItems[ indexPath.row ];
+    NSString *videoPath = self.videoItems[ indexPath.row ][ kPathKey ];
 
     self.videoPlayer.contentURL = [NSURL fileURLWithPath:videoPath];
     [self.videoPlayer play];
