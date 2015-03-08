@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 
-#define kRecordingFPS   16
+#define kPreferredFPS   16
 #define kBitRateKey     @"BitRate"
 #define kRecordQueueKey "com.lymes.homecamera.RecordQueue"
 
@@ -19,8 +19,7 @@ static dispatch_queue_t _recordQueue;
 static AVAssetWriter *_videoWriter;
 static AVAssetWriterInput *_videoWriterInput;
 static AVAssetWriterInputPixelBufferAdaptor *_adaptor;
-static NSInteger _frameCount;
-
+static CFTimeInterval _initTime;
 
 
 @implementation MotionJpegImageView (Recording)
@@ -41,81 +40,90 @@ static NSInteger _frameCount;
 
     dispatch_async( _recordQueue, ^{
 
-                        NSError *error = nil;
+        NSError *error = nil;
 
-                        _videoWriter = [[AVAssetWriter alloc] initWithURL:
-                                        [NSURL fileURLWithPath:path] fileType:AVFileTypeQuickTimeMovie
-                                                                        error:&error];
-                        NSParameterAssert( _videoWriter );
+        _videoWriter = [[AVAssetWriter alloc] initWithURL:
+                        [NSURL fileURLWithPath:path] fileType:AVFileTypeQuickTimeMovie
+                                                        error:&error];
+        NSParameterAssert( _videoWriter );
 
-                        NSInteger bitRate = [[NSUserDefaults standardUserDefaults] integerForKey:kBitRateKey];
-                        NSDictionary *videoSettings = @{ AVVideoCodecKey : AVVideoCodecH264,
-                                                         AVVideoCompressionPropertiesKey : @{
-                                                             AVVideoAverageBitRateKey : @(bitRate),
-                                                             AVVideoMaxKeyFrameIntervalKey : @(1),
-                                                             AVVideoCleanApertureKey : @{
-                                                                 AVVideoCleanApertureWidthKey : @(self.imageSize.width),
-                                                                 AVVideoCleanApertureHeightKey : @(self.imageSize.height),
-                                                                 AVVideoCleanApertureHorizontalOffsetKey : @(10),
-                                                                 AVVideoCleanApertureVerticalOffsetKey : @(10)
-                                                             },
-                                                             AVVideoProfileLevelKey : AVVideoProfileLevelH264Main30
-                                                         },
-                                                         AVVideoWidthKey : @(self.imageSize.width),
-                                                         AVVideoHeightKey : @(self.imageSize.height) };
+        NSInteger bitRate = [[NSUserDefaults standardUserDefaults] integerForKey:kBitRateKey];
+        NSDictionary *videoSettings = @{ AVVideoCodecKey : AVVideoCodecH264,
+                                         AVVideoCompressionPropertiesKey : @{
+                                             AVVideoAverageBitRateKey : @(bitRate),
+                                             AVVideoMaxKeyFrameIntervalKey : @(1),
+                                             AVVideoCleanApertureKey : @{
+                                                 AVVideoCleanApertureWidthKey : @(self.imageSize.width),
+                                                 AVVideoCleanApertureHeightKey : @(self.imageSize.height),
+                                                 AVVideoCleanApertureHorizontalOffsetKey : @(10),
+                                                 AVVideoCleanApertureVerticalOffsetKey : @(10)
+                                             },
+                                             AVVideoProfileLevelKey : AVVideoProfileLevelH264Main30
+                                         },
+                                         AVVideoWidthKey : @(self.imageSize.width),
+                                         AVVideoHeightKey : @(self.imageSize.height) };
 
-                        _videoWriterInput = [AVAssetWriterInput
-                                             assetWriterInputWithMediaType:AVMediaTypeVideo
-                                                            outputSettings:videoSettings];
+        _videoWriterInput = [AVAssetWriterInput
+                             assetWriterInputWithMediaType:AVMediaTypeVideo
+                                            outputSettings:videoSettings];
 
-                        _adaptor = [AVAssetWriterInputPixelBufferAdaptor
-                                    assetWriterInputPixelBufferAdaptorWithAssetWriterInput:_videoWriterInput
-                                                               sourcePixelBufferAttributes:nil];
+        _adaptor = [AVAssetWriterInputPixelBufferAdaptor
+                    assetWriterInputPixelBufferAdaptorWithAssetWriterInput:_videoWriterInput
+                                               sourcePixelBufferAttributes:nil];
 
-                        NSParameterAssert( _videoWriterInput );
-                        NSParameterAssert( [_videoWriter canAddInput:_videoWriterInput] );
-                        _videoWriterInput.expectsMediaDataInRealTime = YES;
-                        [_videoWriter addInput:_videoWriterInput];
+        NSParameterAssert( _videoWriterInput );
+        NSParameterAssert( [_videoWriter canAddInput:_videoWriterInput] );
+        _videoWriterInput.expectsMediaDataInRealTime = YES;
+        [_videoWriter addInput:_videoWriterInput];
 
-                        _videoWriterInput.mediaTimeScale = kRecordingFPS;
-                        _videoWriter.movieTimeScale = kRecordingFPS;
+//        _videoWriterInput.mediaTimeScale = kRecordingFPS;
+//        _videoWriter.movieTimeScale = kRecordingFPS;
 
-                        // Start a session:
-                        [_videoWriter startWriting];
-                        [_videoWriter startSessionAtSourceTime:kCMTimeZero];
+        // Start a session:
+        [_videoWriter startWriting];
+        [_videoWriter startSessionAtSourceTime:kCMTimeZero];
 
-                        _frameCount = 0;
-                    } );
+        _initTime = 0;
+    } );
 }
 
 
 - (void)stopRecording
 {
     dispatch_async( _recordQueue, ^{
-                        [_videoWriterInput markAsFinished];
-                        [_videoWriter endSessionAtSourceTime:CMTimeMake( --_frameCount, kRecordingFPS )];
-                        [_videoWriter finishWritingWithCompletionHandler:^() {
-                             _videoWriterInput = nil;
-                             _videoWriter = nil;
-                             self.isRecording = NO;
-                         }];
-                    } );
+        [_videoWriterInput markAsFinished];
+        [_videoWriter finishWritingWithCompletionHandler:^() {
+            _videoWriterInput = nil;
+            _videoWriter = nil;
+            self.isRecording = NO;
+        }];
+    } );
 }
 
 
 - (void)pushFrame:(UIImage *)frame
 {
+    static int64_t lastFrameTime = 0;
+
     if ( self.isRecording )
     {
         CVPixelBufferRef buffer = [self pixelBufferFromCGImage:[frame CGImage] andSize:frame.size];
         if ( _adaptor.assetWriterInput.readyForMoreMediaData )
         {
-            CMTime frameTime = CMTimeMake( _frameCount++, (int32_t)kRecordingFPS );
-            BOOL res = [_adaptor appendPixelBuffer:buffer withPresentationTime:frameTime];
-            if ( !res )
+            CFTimeInterval currentTime = CACurrentMediaTime();
+            !_initTime && ( _initTime = currentTime );
+            int64_t frameTime = ( currentTime - _initTime ) * kPreferredFPS;
+
+            if ( frameTime != lastFrameTime )
             {
-                NSLog( @"Skipping frame!" );
+                CMTime presentTime = CMTimeMake( frameTime, kPreferredFPS );
+                BOOL res = [_adaptor appendPixelBuffer:buffer withPresentationTime:presentTime];
+                if ( !res )
+                {
+                    NSLog( @"Skipping frame!" );
+                }
             }
+            lastFrameTime = frameTime;
         }
         if ( buffer )
         {

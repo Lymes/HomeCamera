@@ -107,9 +107,6 @@ static NSDateFormatter *_fmt;
     }
     self.videoItems = items;
     [self.tableView reloadData];
-
-    // [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationRight];
-    [self.tableView reloadData];
 }
 
 
@@ -135,7 +132,7 @@ static NSDateFormatter *_fmt;
 }
 
 
-- (float)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return kHeaderHeight;
 }
@@ -315,7 +312,7 @@ static NSDateFormatter *_fmt;
 {
     int seconds = totalSeconds % 60;
     int minutes = (totalSeconds / 60) % 60;
-    int hours = totalSeconds / 3600;
+    int hours = (int)(totalSeconds / 3600);
 
     return [NSString stringWithFormat:@"%02d:%02d:%02d", hours, minutes, seconds];
 }

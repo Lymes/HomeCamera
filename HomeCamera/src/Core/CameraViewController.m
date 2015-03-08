@@ -272,11 +272,6 @@ enum
 
     // add the header to the request.  Here's the $$$!!!
     [request addValue:authHeader forHTTPHeaderField:@"Authorization"];
-
-    // perform the reqeust
-    // NSError *myError = nil;
-    // NSURLResponse *response;
-    // [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&myError];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue new] completionHandler:nil];
 }
 
@@ -311,7 +306,6 @@ enum
     // Free memory
     freeifaddrs( interfaces );
     return address;
-
 }
 
 
