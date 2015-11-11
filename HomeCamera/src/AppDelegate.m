@@ -10,6 +10,7 @@
 #import "CameraViewController.h"
 #import "InAppSettings.h"
 #import "BundleVersion.h"
+#import "AudioStreamManager.h"
 
 
 @implementation AppDelegate
@@ -37,7 +38,8 @@
     UIStoryboard *storyboard = [[[self window] rootViewController] storyboard];
     CameraViewController *controller = (CameraViewController *)[storyboard instantiateInitialViewController];
 
-    [controller stop];
+    [controller stopVideo];
+    [ASM stop];
 }
 
 
@@ -56,7 +58,11 @@
     UIStoryboard *storyboard = [[[self window] rootViewController] storyboard];
     CameraViewController *controller = (CameraViewController *)[storyboard instantiateInitialViewController];
 
-    [controller play];
+    [controller playVideo];
+    if ( [[NSUserDefaults standardUserDefaults] boolForKey:@"audio"] )
+    {
+        [controller playAudio];
+    }
 }
 
 

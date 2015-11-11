@@ -12,8 +12,10 @@
 #import "InAppSettings.h"
 #import "RecordButton.h"
 #import "Base64.h"
+#import "AudioStreamManager.h"
 #import <ifaddrs.h>
 #import <arpa/inet.h>
+#import "AudioStreamManager.h"
 
 
 #define kLocalAddress    @"LocalAddress"
@@ -22,7 +24,7 @@
 #define kPassword        @"Password"
 #define kVideoResolution @"VideoResolution"
 #define kPanSpeed        @"PanSpeed"
-
+#define kAudio           @"audio"
 
 enum
 {
@@ -37,11 +39,17 @@ enum
 };
 
 
-@interface CameraViewController () <UIGestureRecognizerDelegate>
+@interface CameraViewController () <UIGestureRecognizerDelegate> {
+
+    UIView *_launchImageView;
+    UIView *_topAnimationView;
+
+}
 
 @property BOOL isUsingInternet;
 @property NSString *cameraURL;
 @property IBOutlet MotionJpegImageView *imageView;
+
 
 @end
 
@@ -74,51 +82,81 @@ enum
     [swipeLeftRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
     UISwipeGestureRecognizer *swipeRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
     [swipeRightRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
-    UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+
+//    UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
+//    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
 
     [[self view] addGestureRecognizer:swipeUpRecognizer];
     [[self view] addGestureRecognizer:swipeDownRecognizer];
     [[self view] addGestureRecognizer:swipeLeftRecognizer];
     [[self view] addGestureRecognizer:swipeRightRecognizer];
-    [[self view] addGestureRecognizer:pinchRecognizer];
-    [[self view] addGestureRecognizer:tapRecognizer];
+//    [[self view] addGestureRecognizer:pinchRecognizer];
+//    [[self view] addGestureRecognizer:tapRecognizer];
+
+    NSString *launchScreenStoryboard = [[NSBundle mainBundle] infoDictionary][@"UILaunchStoryboardName"];
+    if ( launchScreenStoryboard )
+    {
+        _topAnimationView = [[UIView alloc] initWithFrame:self.view.bounds];
+        [self.view addSubview:_topAnimationView];
+        UINib *nib = [UINib nibWithNibName:launchScreenStoryboard bundle:nil];
+        NSArray *views = [nib instantiateWithOwner:nil options:nil];
+        _launchImageView = views[0];
+        _launchImageView.frame = self.view.bounds;
+        [self.view addSubview:_launchImageView];
+    }
 }
 
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self play];
+    [self playVideo];
+    if ( [[NSUserDefaults standardUserDefaults] boolForKey:kAudio] )
+    {
+        [self playAudio];
+    }
+
+    static dispatch_once_t onceToken;
+    dispatch_once( &onceToken, ^{
+        [self startupAnimation];
+    } );
+}
+
+
+- (void)startupAnimation
+{
+    CATransition *shutterAnimation = [CATransition animation];
+
+    [shutterAnimation setDelegate:self];
+    [shutterAnimation setDuration:1.];
+
+    shutterAnimation.timingFunction = UIViewAnimationCurveEaseInOut;
+    [shutterAnimation setType:@"cameraIris"];
+    [shutterAnimation setValue:@"cameraIris" forKey:@"cameraIris"];
+    CALayer *cameraShutter = [[CALayer alloc]init];
+    [cameraShutter setBounds:CGRectMake( 0.0, 0.0, 320.0, 425.0 )];
+    [shutterAnimation setStartProgress:.5];
+    [_topAnimationView.layer addSublayer:cameraShutter];
+    [_topAnimationView.layer addAnimation:shutterAnimation forKey:@"cameraIris"];
+    [_launchImageView removeFromSuperview];
+}
+
+
+- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
+{
+    [_topAnimationView removeFromSuperview];
 }
 
 
 #pragma mark - Play
 
-- (void)play
+- (void)playVideo
 {
     if ( self.imageView.isPlaying )
     {
         [self.imageView stop];
     }
-    NSString *urlAddress = [[NSUserDefaults standardUserDefaults] stringForKey:kInternetAddress];
-    NSString *localAddress = [[NSUserDefaults standardUserDefaults] stringForKey:kLocalAddress];
-    NSString *ipAddress = [self getIPAddress];
-
-    self.isUsingInternet = YES;
-
-    NSString *host = [[NSURL URLWithString:localAddress] host];
-    NSUInteger lastDot = [host rangeOfString:@"." options:NSBackwardsSearch].location;
-    if ( lastDot != NSNotFound )
-    {
-        NSString *network = [host substringToIndex:lastDot];
-        // if ( [ipAddress containsString:network] )
-        if ( [ipAddress rangeOfString:network].location != NSNotFound )
-        {
-            urlAddress = localAddress;
-            self.isUsingInternet = NO;
-        }
-    }
+    NSString *urlAddress = [self detectUrlAddress];
     NSInteger resolution = [[NSUserDefaults standardUserDefaults] integerForKey:kVideoResolution];
     NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUsername];
     NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:kPassword];
@@ -130,20 +168,60 @@ enum
 }
 
 
-- (void)stop
+- (void)stopVideo
 {
     [self.imageView stop];
     [self.imageView clear];
 }
 
 
+- (void)playAudio
+{
+    NSString *urlAddress = [self detectUrlAddress];
+    NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUsername];
+    NSString *password = [[NSUserDefaults standardUserDefaults] stringForKey:kPassword];
+
+    ASM.url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/audiostream.cgi?user=%@&pwd=%@&streamid=2&filename=", urlAddress, userName, password]];
+    [ASM play];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kAudio];
+}
+
+
+- (void)stopAudio
+{
+    [ASM stop];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kAudio];
+}
+
+
 #pragma mark - Actions
+
+
+- (IBAction)toggleSound:(id)sender
+{
+    if ( ASM.isPlaying )
+    {
+        [sender setImage:[UIImage imageNamed:@"quite"] forState:UIControlStateNormal];
+        [self stopAudio];
+    }
+    else
+    {
+        [sender setImage:[UIImage imageNamed:@"loud"] forState:UIControlStateNormal];
+        [self playAudio];
+    }
+}
 
 
 - (IBAction)reset:(id)sender
 {
-    [self stop];
-    [self play];
+    [self stopVideo];
+    [self playVideo];
+
+    if ( [[NSUserDefaults standardUserDefaults] boolForKey:kAudio] )
+    {
+        [self stopAudio];
+        [self playAudio];
+    }
 }
 
 
@@ -172,12 +250,12 @@ enum
 
 - (void)setupFrame
 {
-    CGRect frame = [[UIScreen mainScreen] applicationFrame];
+    CGRect frame = UIScreen.mainScreen.applicationFrame;
 
     frame.origin.x = 0;
     frame.origin.y = 0;
     frame.size.height += 20;
-    UIInterfaceOrientation orientation = self.interfaceOrientation;
+    UIInterfaceOrientation orientation = UIApplication.sharedApplication.statusBarOrientation;
     if ( UIDevice.currentDevice.systemVersion.floatValue < 8 && (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight) )
     {
         float tmp = frame.size.width;
@@ -192,7 +270,7 @@ enum
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    [self stop];
+    [self stopVideo];
 }
 
 
@@ -272,7 +350,8 @@ enum
 
     // add the header to the request.  Here's the $$$!!!
     [request addValue:authHeader forHTTPHeaderField:@"Authorization"];
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue new] completionHandler:nil];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue new] completionHandler:^( NSURLResponse *response, NSData *data, NSError *connectionError ) {
+     }];
 }
 
 
@@ -306,6 +385,33 @@ enum
     // Free memory
     freeifaddrs( interfaces );
     return address;
+}
+
+
+#pragma mark - Utilities
+
+
+- (NSString *)detectUrlAddress
+{
+    NSString *urlAddress = [[NSUserDefaults standardUserDefaults] stringForKey:kInternetAddress];
+    NSString *localAddress = [[NSUserDefaults standardUserDefaults] stringForKey:kLocalAddress];
+    NSString *ipAddress = [self getIPAddress];
+
+    self.isUsingInternet = YES;
+
+    NSString *host = [[NSURL URLWithString:localAddress] host];
+    NSUInteger lastDot = [host rangeOfString:@"." options:NSBackwardsSearch].location;
+    if ( lastDot != NSNotFound )
+    {
+        NSString *network = [host substringToIndex:lastDot];
+        // if ( [ipAddress containsString:network] )
+        if ( [ipAddress rangeOfString:network].location != NSNotFound )
+        {
+            urlAddress = localAddress;
+            self.isUsingInternet = NO;
+        }
+    }
+    return urlAddress;
 }
 
 

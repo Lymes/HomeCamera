@@ -56,6 +56,7 @@
                   continueAfterRunningActions = "No"
                   symbolName = "__60-[VideoTableViewController tableView:cellForRowAtIndexPath:]_block_invoke"
                   moduleName = "HomeCamera"
+                  usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/lymes/Desktop/HomeCamera/homecamera/src/Core/VideoTableViewController.m"
                   timestampString = "436580168.10037"
                   startingColumnNumber = "9223372036854775807"
@@ -70,6 +71,7 @@
                   continueAfterRunningActions = "No"
                   symbolName = "__60-[VideoTableViewController tableView:cellForRowAtIndexPath:]_block_invoke_2"
                   moduleName = "HomeCamera"
+                  usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/lymes/Desktop/HomeCamera/homecamera/src/Core/VideoTableViewController.m"
                   timestampString = "436580168.100512"
                   startingColumnNumber = "9223372036854775807"
@@ -79,6 +81,16 @@
                   offsetFromSymbolStart = "21">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            symbolName = "malloc_error_break"
+            moduleName = "">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

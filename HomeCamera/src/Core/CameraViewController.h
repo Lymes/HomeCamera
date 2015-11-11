@@ -11,7 +11,10 @@
 
 @interface CameraViewController : UIViewController
 
-- (void)play;
-- (void)stop;
+- (void)playVideo;
+- (void)stopVideo;
+
+- (void)playAudio;
+- (void)stopAudio;
 
 @end

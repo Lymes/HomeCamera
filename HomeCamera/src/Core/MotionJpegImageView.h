@@ -24,8 +24,9 @@
 // SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import "ZoomRotatePanImageView.h"
 
-@interface MotionJpegImageView : UIImageView {
+@interface MotionJpegImageView : ZoomRotatePanImageView {
 
     @private
     NSURL *_url;

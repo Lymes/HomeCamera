@@ -8,6 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+#define ASM AudioStreamManager.sharedInstance
+
 @interface AudioStreamManager : NSObject
+
+@property (nonatomic, readwrite, copy) NSURL *url;
+@property (nonatomic, readonly) BOOL isPlaying;
+
++ (AudioStreamManager *)sharedInstance;
+
+- (void)play;
+- (void)stop;
 
 @end

@@ -16,7 +16,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>http://192.168.1.127:81</string>
+			<string>http://192.168.1.110:81</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
@@ -34,7 +34,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>http://lymeshome.net</string>
+			<string>http://lymeshome.net:81/</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
@@ -70,7 +70,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>230282</string>
+			<string>Winblows123</string>
 			<key>IsSecure</key>
 			<true/>
 			<key>Key</key>

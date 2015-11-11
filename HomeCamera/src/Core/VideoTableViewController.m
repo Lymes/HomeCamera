@@ -267,9 +267,10 @@ static NSDateFormatter *_fmt;
     NSURL *url = [NSURL fileURLWithPath:self.videoItems[ indexPath.row][ kPathKey ]];
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:@[url] applicationActivities:nil];
 
-    [activityVC setCompletionHandler:^( NSString *activityType, BOOL completed ) {
-         [self.tableView setEditing:NO animated:YES];
-     }];
+    [activityVC setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+        [self.tableView setEditing:NO animated:YES];
+    }];
+    
     [self presentViewController:activityVC animated:YES completion:nil];
 }
 

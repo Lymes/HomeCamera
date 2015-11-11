@@ -12,6 +12,13 @@
 		1B240AF41A06532E005B2E39 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B240AF31A06532E005B2E39 /* CameraViewController.m */; };
 		1B3CDA8E1A051AC3001776D2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B3CDA8D1A051AC3001776D2 /* QuartzCore.framework */; };
 		1B3CDA911A0547F9001776D2 /* ThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3CDA901A0547F9001776D2 /* ThemeManager.m */; };
+		1BA381CF1BB5756000A8095C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BA381CE1BB5756000A8095C /* LaunchScreen.xib */; };
+		1BC748031BDFC592003896D8 /* AudioStreamManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC748021BDFC592003896D8 /* AudioStreamManager.m */; };
+		1BC748051BDFD29F003896D8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC748041BDFD29F003896D8 /* AudioToolbox.framework */; };
+		1BC7480A1BDFDB2E003896D8 /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BC748061BDFDB2E003896D8 /* TPCircularBuffer.c */; };
+		1BC7480B1BDFDB2E003896D8 /* TPCircularBuffer+AudioBufferList.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BC748081BDFDB2E003896D8 /* TPCircularBuffer+AudioBufferList.c */; };
+		1BC7480E1BDFE293003896D8 /* adpcm.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BC7480C1BDFE293003896D8 /* adpcm.c */; };
+		1BDACA491B2BA90100D8C1E7 /* ZoomRotatePanImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDACA481B2BA90100D8C1E7 /* ZoomRotatePanImageView.m */; };
 		1BF45DB31A01552E00A2F6C6 /* MotionJpegImageView+Recording.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF45DB21A01552E00A2F6C6 /* MotionJpegImageView+Recording.m */; };
 		1BF45DB51A0155BC00A2F6C6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF45DB41A0155BC00A2F6C6 /* AVFoundation.framework */; };
 		1BF45DB71A0156BC00A2F6C6 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF45DB61A0156BC00A2F6C6 /* CoreMedia.framework */; };
@@ -22,7 +29,7 @@
 		1BF79EFB175115ED00E7BB15 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF79EFA175115ED00E7BB15 /* CoreGraphics.framework */; };
 		223E3E0419FE7D78000CC2A8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3DFA19FE7D78000CC2A8 /* AppDelegate.m */; };
 		223E3E0719FE7D78000CC2A8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3DFF19FE7D78000CC2A8 /* main.m */; };
-		223E3E0C19FE7DA3000CC2A8 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 223E3E0A19FE7DA3000CC2A8 /* MainStoryboard_iPhone.storyboard */; };
+		223E3E0C19FE7DA3000CC2A8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 223E3E0A19FE7DA3000CC2A8 /* Main.storyboard */; };
 		223E3E1819FE7E80000CC2A8 /* MotionJpegImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3E1619FE7E80000CC2A8 /* MotionJpegImageView.m */; };
 		223E3E3419FE7E8C000CC2A8 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3E1B19FE7E8C000CC2A8 /* Base64.m */; };
 		223E3E3519FE7E8C000CC2A8 /* InAppSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E3E1E19FE7E8C000CC2A8 /* InAppSettings.m */; };
@@ -47,13 +54,25 @@
 		1B03FD7D1A003A7F00914210 /* BundleVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BundleVersion.h; sourceTree = "<group>"; };
 		1B11DE631A02BB1B00AB06D2 /* VideoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoTableViewController.h; path = homecamera/src/Core/VideoTableViewController.h; sourceTree = SOURCE_ROOT; };
 		1B11DE641A02BB1B00AB06D2 /* VideoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoTableViewController.m; path = homecamera/src/Core/VideoTableViewController.m; sourceTree = SOURCE_ROOT; };
-		1B121EF81A02BC7E00F743B0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/MainStoryboard_iPhone.strings; sourceTree = "<group>"; };
+		1B121EF81A02BC7E00F743B0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/Main.strings; sourceTree = "<group>"; };
 		1B121EF91A02C4DD00F743B0 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		1B240AF21A06532E005B2E39 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CameraViewController.h; path = homecamera/src/Core/CameraViewController.h; sourceTree = SOURCE_ROOT; };
 		1B240AF31A06532E005B2E39 /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CameraViewController.m; path = homecamera/src/Core/CameraViewController.m; sourceTree = SOURCE_ROOT; };
 		1B3CDA8D1A051AC3001776D2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1B3CDA8F1A0547F9001776D2 /* ThemeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeManager.h; path = homecamera/src/Core/ThemeManager.h; sourceTree = SOURCE_ROOT; };
 		1B3CDA901A0547F9001776D2 /* ThemeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThemeManager.m; path = homecamera/src/Core/ThemeManager.m; sourceTree = SOURCE_ROOT; };
+		1BA381CE1BB5756000A8095C /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = homecamera/resources/LaunchScreen.xib; sourceTree = SOURCE_ROOT; };
+		1BC748011BDFC592003896D8 /* AudioStreamManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioStreamManager.h; path = homecamera/src/Core/AudioStreamManager.h; sourceTree = SOURCE_ROOT; };
+		1BC748021BDFC592003896D8 /* AudioStreamManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioStreamManager.m; path = homecamera/src/Core/AudioStreamManager.m; sourceTree = SOURCE_ROOT; };
+		1BC748041BDFD29F003896D8 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		1BC748061BDFDB2E003896D8 /* TPCircularBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TPCircularBuffer.c; sourceTree = "<group>"; };
+		1BC748071BDFDB2E003896D8 /* TPCircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPCircularBuffer.h; sourceTree = "<group>"; };
+		1BC748081BDFDB2E003896D8 /* TPCircularBuffer+AudioBufferList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "TPCircularBuffer+AudioBufferList.c"; sourceTree = "<group>"; };
+		1BC748091BDFDB2E003896D8 /* TPCircularBuffer+AudioBufferList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TPCircularBuffer+AudioBufferList.h"; sourceTree = "<group>"; };
+		1BC7480C1BDFE293003896D8 /* adpcm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adpcm.c; sourceTree = "<group>"; };
+		1BC7480D1BDFE293003896D8 /* adpcm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = adpcm.h; sourceTree = "<group>"; };
+		1BDACA471B2BA90100D8C1E7 /* ZoomRotatePanImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomRotatePanImageView.h; sourceTree = "<group>"; };
+		1BDACA481B2BA90100D8C1E7 /* ZoomRotatePanImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoomRotatePanImageView.m; sourceTree = "<group>"; };
 		1BF45DB11A01552E00A2F6C6 /* MotionJpegImageView+Recording.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MotionJpegImageView+Recording.h"; sourceTree = "<group>"; };
 		1BF45DB21A01552E00A2F6C6 /* MotionJpegImageView+Recording.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MotionJpegImageView+Recording.m"; sourceTree = "<group>"; };
 		1BF45DB41A0155BC00A2F6C6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -70,7 +89,7 @@
 		223E3DF919FE7D78000CC2A8 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		223E3DFA19FE7D78000CC2A8 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		223E3DFF19FE7D78000CC2A8 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		223E3E0B19FE7DA3000CC2A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Resources/Base.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		223E3E0B19FE7DA3000CC2A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Resources/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		223E3E1519FE7E80000CC2A8 /* MotionJpegImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MotionJpegImageView.h; sourceTree = "<group>"; };
 		223E3E1619FE7E80000CC2A8 /* MotionJpegImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MotionJpegImageView.m; sourceTree = "<group>"; };
 		223E3E1A19FE7E8C000CC2A8 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
@@ -112,6 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BC748051BDFD29F003896D8 /* AudioToolbox.framework in Frameworks */,
 				1B3CDA8E1A051AC3001776D2 /* QuartzCore.framework in Frameworks */,
 				1B121EFA1A02C4DD00F743B0 /* MediaPlayer.framework in Frameworks */,
 				1BF45DB91A01594600A2F6C6 /* CoreVideo.framework in Frameworks */,
@@ -131,9 +151,10 @@
 			children = (
 				223E3E4A19FE913A000CC2A8 /* InfoPlist.strings */,
 				223E3E4619FE8F54000CC2A8 /* Images.xcassets */,
-				223E3E0A19FE7DA3000CC2A8 /* MainStoryboard_iPhone.storyboard */,
+				223E3E0A19FE7DA3000CC2A8 /* Main.storyboard */,
 				223E3E4019FE7EA7000CC2A8 /* Settings.bundle */,
 				223E3E9119FE9B43000CC2A8 /* Localizable.strings */,
+				1BA381CE1BB5756000A8095C /* LaunchScreen.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -158,6 +179,7 @@
 		1BF79EF5175115ED00E7BB15 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1BC748041BDFD29F003896D8 /* AudioToolbox.framework */,
 				1B3CDA8D1A051AC3001776D2 /* QuartzCore.framework */,
 				1B121EF91A02C4DD00F743B0 /* MediaPlayer.framework */,
 				1BF45DB81A01594600A2F6C6 /* CoreVideo.framework */,
@@ -215,6 +237,8 @@
 				1B11DE641A02BB1B00AB06D2 /* VideoTableViewController.m */,
 				1B3CDA8F1A0547F9001776D2 /* ThemeManager.h */,
 				1B3CDA901A0547F9001776D2 /* ThemeManager.m */,
+				1BC748011BDFC592003896D8 /* AudioStreamManager.h */,
+				1BC748021BDFC592003896D8 /* AudioStreamManager.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -222,6 +246,14 @@
 		223E3E1919FE7E8C000CC2A8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				1BC7480C1BDFE293003896D8 /* adpcm.c */,
+				1BC7480D1BDFE293003896D8 /* adpcm.h */,
+				1BC748061BDFDB2E003896D8 /* TPCircularBuffer.c */,
+				1BC748071BDFDB2E003896D8 /* TPCircularBuffer.h */,
+				1BC748081BDFDB2E003896D8 /* TPCircularBuffer+AudioBufferList.c */,
+				1BC748091BDFDB2E003896D8 /* TPCircularBuffer+AudioBufferList.h */,
+				1BDACA471B2BA90100D8C1E7 /* ZoomRotatePanImageView.h */,
+				1BDACA481B2BA90100D8C1E7 /* ZoomRotatePanImageView.m */,
 				223E3E1A19FE7E8C000CC2A8 /* Base64.h */,
 				223E3E1B19FE7E8C000CC2A8 /* Base64.m */,
 				223E3E1C19FE7E8C000CC2A8 /* InAppSettings */,
@@ -290,7 +322,7 @@
 		1BF79EEB175115ED00E7BB15 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Leonid Mesentsev";
 				TargetAttributes = {
 					1BF79EF2175115ED00E7BB15 = {
@@ -336,8 +368,9 @@
 			files = (
 				223E3E4C19FE913A000CC2A8 /* InfoPlist.strings in Resources */,
 				223E3E4719FE8F54000CC2A8 /* Images.xcassets in Resources */,
-				223E3E0C19FE7DA3000CC2A8 /* MainStoryboard_iPhone.storyboard in Resources */,
+				223E3E0C19FE7DA3000CC2A8 /* Main.storyboard in Resources */,
 				223E3E9319FE9B43000CC2A8 /* Localizable.strings in Resources */,
+				1BA381CF1BB5756000A8095C /* LaunchScreen.xib in Resources */,
 				223E3E4119FE7EA7000CC2A8 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -368,14 +401,18 @@
 				223E3E3B19FE7E8C000CC2A8 /* InAppSettingsPSTitleValueSpecifierCell.m in Sources */,
 				223E3E3619FE7E8C000CC2A8 /* InAppSettingsPSChildPaneSpecifierCell.m in Sources */,
 				223E3E3F19FE7E8C000CC2A8 /* InAppSettingsTableCell.m in Sources */,
+				1BC748031BDFC592003896D8 /* AudioStreamManager.m in Sources */,
 				223E3E3519FE7E8C000CC2A8 /* InAppSettings.m in Sources */,
 				223E3E1819FE7E80000CC2A8 /* MotionJpegImageView.m in Sources */,
+				1BC7480A1BDFDB2E003896D8 /* TPCircularBuffer.c in Sources */,
 				223E3E3E19FE7E8C000CC2A8 /* InAppSettingsSpecifier.m in Sources */,
 				223E3E3719FE7E8C000CC2A8 /* InAppSettingsPSMultiValueSpecifierCell.m in Sources */,
 				1B3CDA911A0547F9001776D2 /* ThemeManager.m in Sources */,
 				223E3E0719FE7D78000CC2A8 /* main.m in Sources */,
+				1BC7480E1BDFE293003896D8 /* adpcm.c in Sources */,
 				223E3E3419FE7E8C000CC2A8 /* Base64.m in Sources */,
 				1BF45DBC1A019DC000A2F6C6 /* DismissSegue.m in Sources */,
+				1BC7480B1BDFDB2E003896D8 /* TPCircularBuffer+AudioBufferList.c in Sources */,
 				1B11DE651A02BB1B00AB06D2 /* VideoTableViewController.m in Sources */,
 				1B240AF41A06532E005B2E39 /* CameraViewController.m in Sources */,
 				223E3E3919FE7E8C000CC2A8 /* InAppSettingsPSSliderSpecifierCell.m in Sources */,
@@ -385,6 +422,7 @@
 				223E3E3C19FE7E8C000CC2A8 /* InAppSettingsPSToggleSwitchSpecifierCell.m in Sources */,
 				223E3E3819FE7E8C000CC2A8 /* InAppSettingsPSMultiValueSpecifierTable.m in Sources */,
 				227963FA1A02722B005159D6 /* RecordButton.m in Sources */,
+				1BDACA491B2BA90100D8C1E7 /* ZoomRotatePanImageView.m in Sources */,
 				223E3E0419FE7D78000CC2A8 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -392,13 +430,13 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		223E3E0A19FE7DA3000CC2A8 /* MainStoryboard_iPhone.storyboard */ = {
+		223E3E0A19FE7DA3000CC2A8 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				223E3E0B19FE7DA3000CC2A8 /* Base */,
 				1B121EF81A02BC7E00F743B0 /* ru */,
 			);
-			name = MainStoryboard_iPhone.storyboard;
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		223E3E4A19FE913A000CC2A8 /* InfoPlist.strings */ = {
@@ -435,6 +473,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -483,14 +522,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HomeCamera/HomeCamera-Prefix.pch";
 				INFOPLIST_FILE = "HomeCamera/HomeCamera-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lymes.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -499,14 +540,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HomeCamera/HomeCamera-Prefix.pch";
 				INFOPLIST_FILE = "HomeCamera/HomeCamera-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lymes.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
