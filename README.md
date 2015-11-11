@@ -1,5 +1,5 @@
 #HomeCamera
-Small iOS app for Coolcam camera
+Small iOS app for NEO Coolcam IP Cameras
 
 ##Features
 * DDNS support
