@@ -4,7 +4,7 @@ Small iOS app for Coolcam camera
 ##Features
 * DDNS support
 * Audio streaming (oneway for the moment)
-* Pan, tilt controls
+* Pan, tilt, zoom, rotate controls with gestures
 * Video recording
 
 ![HomeCamera Screenshot](/screenshot.png)
