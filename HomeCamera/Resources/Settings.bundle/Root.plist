@@ -34,7 +34,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>http://lymeshome.net:81/</string>
+			<string>http://home.net:81/</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
@@ -70,7 +70,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>Winblows123</string>
+			<string>12345678</string>
 			<key>IsSecure</key>
 			<true/>
 			<key>Key</key>
