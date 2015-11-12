@@ -82,6 +82,7 @@ static void audioQueueOutputCallback( void *inUserData, AudioQueueRef inAQ, Audi
 
     NSURLConnection *_connection;
     AudioQueueRef _aq;
+    AudioQueueBufferRef _aq_buffer;
     NSMutableData *_data;
 
 }
@@ -127,7 +128,14 @@ static void audioQueueOutputCallback( void *inUserData, AudioQueueRef inAQ, Audi
         {
             return nil;
         }
-
+        
+        s = AudioQueueAllocateBuffer( _aq, 2048, &_aq_buffer );
+        if ( s != noErr )
+        {
+            NSLog( @"Cannot allocate audio buffer." );
+            return nil;
+        }
+        _aq_buffer->mAudioDataByteSize = 2048;
     }
     return self;
 }
@@ -212,20 +220,10 @@ static void audioQueueOutputCallback( void *inUserData, AudioQueueRef inAQ, Audi
         // Skip data header
         start += 32;
 
-        AudioQueueBufferRef aq_buffer;
-        s = AudioQueueAllocateBuffer( _aq, 2048, &aq_buffer );
-        if ( s != noErr )
-        {
-            NSLog( @"Cannot allocate audio buffer." );
-            break;
-        }
-
-        aq_buffer->mAudioDataByteSize = 2048;
-
         adpcm_state state = { 0, 0 };
-        adpcm_decoder( start, (short *)aq_buffer->mAudioData, 1024, &state );
+        adpcm_decoder( start, (short *)_aq_buffer->mAudioData, 1024, &state );
 
-        s = AudioQueueEnqueueBuffer( _aq, aq_buffer, 0, NULL );
+        s = AudioQueueEnqueueBuffer( _aq, _aq_buffer, 0, NULL );
         if ( s != noErr )
         {
             NSLog( @"Cannot enqueue audio buffer." );
