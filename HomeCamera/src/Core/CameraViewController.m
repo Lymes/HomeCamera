@@ -111,10 +111,6 @@ enum
 {
     [super viewDidAppear:animated];
     [self playVideo];
-    if ( [[NSUserDefaults standardUserDefaults] boolForKey:kAudio] )
-    {
-        [self playAudio];
-    }
 
     static dispatch_once_t onceToken;
     dispatch_once( &onceToken, ^{

@@ -18,6 +18,7 @@ static BOOL _isRecording;
 static dispatch_queue_t _recordQueue;
 static AVAssetWriter *_videoWriter;
 static AVAssetWriterInput *_videoWriterInput;
+static AVAssetWriterInput *_assetWriterAudioInput;
 static AVAssetWriterInputPixelBufferAdaptor *_adaptor;
 static CFTimeInterval _initTime;
 
@@ -79,6 +80,27 @@ static CFTimeInterval _initTime;
 //        _videoWriterInput.mediaTimeScale = kRecordingFPS;
 //        _videoWriter.movieTimeScale = kRecordingFPS;
 
+
+        // Audio
+        AudioChannelLayout acl;
+        bzero( &acl, sizeof( acl ));
+        acl.mChannelLayoutTag = kAudioChannelLayoutTag_Mono;
+
+        double preferredHardwareSampleRate = [[AVAudioSession sharedInstance] sampleRate];
+        NSDictionary *audioOutputSettings = @{
+            AVFormatIDKey : @(kAudioFormatMPEG4AAC),
+            AVNumberOfChannelsKey : @(1),
+            AVSampleRateKey : @(preferredHardwareSampleRate),
+            AVChannelLayoutKey : [ NSData dataWithBytes:&acl length:sizeof( acl ) ],
+            AVEncoderBitRateKey : @(64000)
+        };
+        _assetWriterAudioInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio outputSettings:audioOutputSettings];
+        _assetWriterAudioInput.expectsMediaDataInRealTime = YES;
+        if ( [_videoWriter canAddInput:_assetWriterAudioInput] )
+        {
+            [_videoWriter addInput:_assetWriterAudioInput];
+        }
+
         // Start a session:
         [_videoWriter startWriting];
         [_videoWriter startSessionAtSourceTime:kCMTimeZero];
@@ -91,12 +113,19 @@ static CFTimeInterval _initTime;
 - (void)stopRecording
 {
     dispatch_async( _recordQueue, ^{
-        [_videoWriterInput markAsFinished];
+
+        if ( _videoWriter.status == AVAssetWriterStatusWriting )
+        {
+            [_videoWriterInput markAsFinished];
+            [_assetWriterAudioInput markAsFinished];
+        }
+
         [_videoWriter finishWritingWithCompletionHandler:^() {
-            _videoWriterInput = nil;
-            _videoWriter = nil;
-            self.isRecording = NO;
-        }];
+             _videoWriterInput = nil;
+             _assetWriterAudioInput = nil;
+             _videoWriter = nil;
+             self.isRecording = NO;
+         }];
     } );
 }
 
@@ -130,6 +159,42 @@ static CFTimeInterval _initTime;
             CVBufferRelease( buffer );
         }
     }
+}
+
+
+- (void)processSampleBuffer:(CMSampleBufferRef)sampleBuffer
+{
+    static CMSampleTimingInfo pInfo[ 3 ];
+
+    if ( self.isRecording )
+    {
+        CMItemCount count;
+        // CMSampleBufferGetSampleTimingInfoArray(sampleBuffer, 0, nil, &count);
+        // CMSampleTimingInfo* pInfo = malloc(sizeof(CMSampleTimingInfo) * count);
+        CMSampleBufferGetSampleTimingInfoArray( sampleBuffer, 3, pInfo, &count );
+        for ( CMItemCount i = 0; i < count; i++ )
+        {
+            pInfo[i].decodeTimeStamp = kCMTimeZero; // _presentationTime;
+            pInfo[i].presentationTimeStamp = kCMTimeZero; // _presentationTime;
+        }
+        CMSampleBufferRef syncedSample;
+        CMSampleBufferCreateCopyWithNewTiming( kCFAllocatorDefault, sampleBuffer, count, pInfo, &syncedSample );
+        // free(pInfo);
+        CMTime currentSampleTime = CMSampleBufferGetOutputPresentationTimeStamp( syncedSample );
+        if ( !_assetWriterAudioInput.readyForMoreMediaData )
+        {
+            NSLog( @"Had to drop an audio frame %@", CFBridgingRelease( CMTimeCopyDescription( kCFAllocatorDefault, currentSampleTime )));
+        }
+        else if ( _videoWriter.status == AVAssetWriterStatusWriting )
+        {
+            if ( ![_assetWriterAudioInput appendSampleBuffer:syncedSample] )
+            {
+                NSLog( @"Problem appending audio buffer at time: %@", CFBridgingRelease( CMTimeCopyDescription( kCFAllocatorDefault, currentSampleTime )));
+            }
+        }
+        CFRelease( syncedSample );
+    }
+
 }
 
 

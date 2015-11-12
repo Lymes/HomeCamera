@@ -8,23 +8,84 @@
 
 #import "AudioStreamManager.h"
 
-#import <AudioToolbox/AudioToolbox.h>
-
 #include "adpcm.h"
 
 
 
 static void audioQueueOutputCallback( void *inUserData, AudioQueueRef inAQ, AudioQueueBufferRef inBuffer )
 {
+    void *buffer = inBuffer->mAudioData;
+
+    buffer = (char *)buffer;
+    UInt32 len = inBuffer->mAudioDataByteSize;
+
+    AudioStreamManager *Self = (__bridge AudioStreamManager *)inUserData;
+
+    CMSampleBufferRef sampleBuffer = NULL;
+    OSStatus status = -1;
+
+    AudioStreamBasicDescription streamDesc = Self.streamDecription;
+
+    CMFormatDescriptionRef format = NULL;
+    status = CMAudioFormatDescriptionCreate( kCFAllocatorDefault, &streamDesc, 0, nil, 0, nil, nil, &format );
+
+    CMFormatDescriptionRef formatdes = NULL;
+    status = CMFormatDescriptionCreate( NULL, kCMMediaType_Audio, 'lpcm', NULL, &formatdes );
+    if ( status != noErr )
+    {
+        NSLog( @"Error in CMAudioFormatDescriptionCreater" );
+        CFRelease( format );
+        return;
+    }
+
+    /* Create sample Buffer */
+    CMSampleTimingInfo timing   = { .duration = CMTimeMake( 1, 8000 ), .presentationTimeStamp = kCMTimeZero, .decodeTimeStamp = kCMTimeInvalid };
+    CMItemCount framesCount     = len / 2;
+    status = CMSampleBufferCreate( kCFAllocatorDefault, nil, NO, nil, nil, format, framesCount, 1, &timing, 0, nil, &sampleBuffer );
+    if ( status != noErr )
+    {
+        NSLog( @"Error in CMSampleBufferCreate" );
+        CFRelease( format );
+        CFRelease( formatdes );
+        return;
+    }
+
+    /* Copy BufferList to Sample Buffer */
+    AudioBufferList theDataBuffer;
+    theDataBuffer.mNumberBuffers = 1;
+    theDataBuffer.mBuffers[0].mDataByteSize = len;
+    theDataBuffer.mBuffers[0].mNumberChannels = 1;
+    theDataBuffer.mBuffers[0].mData = buffer;
+    status = CMSampleBufferSetDataBufferFromAudioBufferList( sampleBuffer, kCFAllocatorDefault, kCFAllocatorDefault, 0, &theDataBuffer );
+    if ( status != noErr )
+    {
+        NSLog( @"Error in CMSampleBufferSetDataBufferFromAudioBufferList: %d", status );
+        CFRelease( sampleBuffer );
+        CFRelease( format );
+        CFRelease( formatdes );
+        return;
+    }
+
+    if ( Self.audioListener )
+    {
+        [Self.audioListener processSampleBuffer:sampleBuffer];
+    }
+
+    CMSampleBufferInvalidate( sampleBuffer );
+    CFRelease( sampleBuffer );
+    CFRelease( format );
+    CFRelease( formatdes );
 }
 
 
 @interface AudioStreamManager () {
-    
+
     NSURLConnection *_connection;
     AudioQueueRef _aq;
     NSMutableData *_data;
+
 }
+
 
 @end
 
@@ -35,7 +96,7 @@ static void audioQueueOutputCallback( void *inUserData, AudioQueueRef inAQ, Audi
 + (AudioStreamManager *)sharedInstance
 {
     static AudioStreamManager *_sharedInstance = nil;
-    
+
     if ( !_sharedInstance )
     {
         _sharedInstance = [[AudioStreamManager alloc] init];
@@ -51,23 +112,22 @@ static void audioQueueOutputCallback( void *inUserData, AudioQueueRef inAQ, Audi
     {
         _connection = nil;
         _data = [NSMutableData new];
-        
-        AudioStreamBasicDescription asbd;
-        asbd.mSampleRate       = 8000;
-        asbd.mFormatID         = kAudioFormatLinearPCM;
-        asbd.mFormatFlags      = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;    // | kAudioFormatFlagsNativeEndian;;
-        asbd.mBytesPerPacket   = 2;
-        asbd.mFramesPerPacket  = 1;
-        asbd.mBytesPerFrame    = 2;
-        asbd.mChannelsPerFrame = 1;
-        asbd.mBitsPerChannel   = 16;
-        asbd.mReserved         = 0;
-        OSStatus s = AudioQueueNewOutput( &asbd, audioQueueOutputCallback, NULL, CFRunLoopGetCurrent(), kCFRunLoopCommonModes, 0, &_aq );
+
+        _streamDecription.mSampleRate       = 8000;
+        _streamDecription.mFormatID         = kAudioFormatLinearPCM;
+        _streamDecription.mFormatFlags      = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;    // | kAudioFormatFlagsNativeEndian;;
+        _streamDecription.mBytesPerPacket   = 2;
+        _streamDecription.mFramesPerPacket  = 1;
+        _streamDecription.mBytesPerFrame    = 2;
+        _streamDecription.mChannelsPerFrame = 1;
+        _streamDecription.mBitsPerChannel   = 16;
+        _streamDecription.mReserved         = 0;
+        OSStatus s = AudioQueueNewOutput( &_streamDecription, audioQueueOutputCallback, (__bridge void *)(self), CFRunLoopGetCurrent(), kCFRunLoopCommonModes, 0, &_aq );
         if ( s != noErr )
         {
             return nil;
         }
-        
+
     }
     return self;
 }
@@ -82,7 +142,7 @@ static void audioQueueOutputCallback( void *inUserData, AudioQueueRef inAQ, Audi
         [_connection cancel];
         [self cleanupConnection];
     }
-    
+
 }
 
 
@@ -114,7 +174,7 @@ static void audioQueueOutputCallback( void *inUserData, AudioQueueRef inAQ, Audi
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_url
                                                                cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                            timeoutInterval:10];
-        
+
         _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
         _isPlaying = YES;
     }
@@ -141,17 +201,17 @@ static void audioQueueOutputCallback( void *inUserData, AudioQueueRef inAQ, Audi
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     OSStatus s;
-    
+
     [_data appendData:data];
-    
+
     NSLog( @"Received %lu bytes, buffered %lu bytes", data.length, _data.length );
-    
+
     while ( _data.length >= 544 )
     {
         char *start = (char *)_data.bytes;
         // Skip data header
         start += 32;
-        
+
         AudioQueueBufferRef aq_buffer;
         s = AudioQueueAllocateBuffer( _aq, 2048, &aq_buffer );
         if ( s != noErr )
@@ -159,20 +219,20 @@ static void audioQueueOutputCallback( void *inUserData, AudioQueueRef inAQ, Audi
             NSLog( @"Cannot allocate audio buffer." );
             break;
         }
-        
+
         aq_buffer->mAudioDataByteSize = 2048;
-        
+
         adpcm_state state = { 0, 0 };
         adpcm_decoder( start, (short *)aq_buffer->mAudioData, 1024, &state );
-        
+
         s = AudioQueueEnqueueBuffer( _aq, aq_buffer, 0, NULL );
         if ( s != noErr )
         {
             NSLog( @"Cannot enqueue audio buffer." );
         }
-        
+
         NSLog( @"Enqueued 512 bytes" );
-        
+
         [_data setData:[_data subdataWithRange:NSMakeRange( 544, _data.length - 544 )]];
     }
 }
@@ -185,7 +245,7 @@ static void audioQueueOutputCallback( void *inUserData, AudioQueueRef inAQ, Audi
 
 
 - (void)connection:(NSURLConnection *)connection
-  didFailWithError:(NSError *)error
+    didFailWithError:(NSError *)error
 {
     [self cleanupConnection];
     [self play];

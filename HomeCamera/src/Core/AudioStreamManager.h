@@ -7,13 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
+
 
 #define ASM AudioStreamManager.sharedInstance
 
+@protocol AudioListener <NSObject>
+
+- (void)processSampleBuffer:(CMSampleBufferRef)sampleBuffer;
+
+@end
+
+
 @interface AudioStreamManager : NSObject
 
+@property (nonatomic) AudioStreamBasicDescription streamDecription;
 @property (nonatomic, readwrite, copy) NSURL *url;
 @property (nonatomic, readonly) BOOL isPlaying;
+@property (nonatomic, weak) id<AudioListener> audioListener;
 
 + (AudioStreamManager *)sharedInstance;
 

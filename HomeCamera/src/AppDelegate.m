@@ -12,6 +12,8 @@
 #import "BundleVersion.h"
 #import "AudioStreamManager.h"
 
+#import <AVFoundation/AVFoundation.h>
+
 
 @implementation AppDelegate
 
@@ -29,6 +31,15 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
+
+
+    if ( [AVAudioSession sharedInstance].category != AVAudioSessionCategoryPlayAndRecord )
+    {
+        [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:(AVAudioSessionCategoryOptionDefaultToSpeaker |  AVAudioSessionCategoryOptionMixWithOthers) error:nil];
+        [[AVAudioSession sharedInstance] setActive:YES error:nil];
+    }
+
     return YES;
 }
 

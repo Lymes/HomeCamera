@@ -89,6 +89,7 @@ static NSData *_endMarkerData = nil;
     }
 
     self.contentMode = UIViewContentModeScaleAspectFit;
+    ASM.audioListener = self;
 }
 
 
@@ -211,8 +212,8 @@ static NSData *_endMarkerData = nil;
             if ( self.isRecording )
             {
                 dispatch_async( self.recordQueue, ^{
-                                    [self pushFrame:receivedImage];
-                                } );
+                    [self pushFrame:receivedImage];
+                } );
             }
         }
         _receivedData = [NSMutableData new];
