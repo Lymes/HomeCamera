@@ -5,7 +5,7 @@ Small iOS app for NEO Coolcam IP Cameras
 * DDNS support
 * Audio streaming (oneway for the moment)
 * Pan, tilt, zoom, rotate controls with gestures
-* Video recording
+* Video (w audio) recording
 
 ![HomeCamera Screenshot](/screenshot.png)
 
